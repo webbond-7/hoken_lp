@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ほけん家族 — ファーストビュー デザインカンプ v6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+
+    /* =============================================
+       DESIGN TOKENS — Pattern B 確定版
+       ============================================= */
+    :root {
+      --navy:       #1B3A4B;
+      --pink:       #FF0E77;
+      --pink-hover: #E0006A;
+      --warm-bg:    #F7F5F0;
+      --warm-bg-2:  #EDE9E2;
+      --text-dark:  #141F27;
+      --text-body:  #4A4A4A;
+      --text-muted: #8A8A8A;
+      --divider:    #D6D0C6;
+      --white:      #FFFFFF;
+
+      /*
+       * ─── VIDEO COLLAGE SCALE SYSTEM ───
+       * 基準値: DevTools調整値 (〜1200px 時)
+       *   vid-main : left:-87px  width:338px  height:449px
+       *   vid-sub  : left:204px  top:216px    width:200px  height:303px
+       * --s を変えるだけで全ブレークポイントが比例スケール
+       */
+      --s: 1;
+    }
+
+    /* ── Responsive scale steps ── */
+    @media (min-width: 1600px) { :root { --s: 1.32; } }
+    @media (min-width: 1400px) and (max-width: 1599px) { :root { --s: 1.18; } }
+    /* 1200px〜1399px : --s = 1.0 (基準) */
+    @media (max-width: 1050px) and (min-width: 769px) { :root { --s: 0.84; } }
+    @media (max-width: 900px)  and (min-width: 769px) { :root { --s: 0.72; } }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--warm-bg);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .comp-badge {
+      position: fixed;
+      top: 10px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: rgba(20,31,39,0.80);
+      color: rgba(255,255,255,0.68);
+      font-size: 10px;
+      letter-spacing: 0.07em;
+      padding: 5px 16px;
+      border-radius: 100px;
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 64px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(247,245,240,0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(27,58,75,0.09);
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 9px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: var(--navy);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-text {
+      font-size: 16px; font-weight: 900;
+      color: var(--navy); letter-spacing: -0.02em;
+    }
+
+    .site-nav {
+      display: flex; align-items: center; gap: 28px;
+    }
+    .site-nav a {
+      font-size: 13px; font-weight: 500;
+      color: var(--text-body); text-decoration: none;
+      transition: color 0.18s;
+    }
+    .site-nav a:hover { color: var(--navy); }
+    .nav-cta {
+      background: var(--navy) !important;
+      color: var(--white) !important;
+      font-weight: 700 !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+    }
+
+    /* ============================================================
+       HERO — flex-start で天揃え
+       ============================================================ */
+    .hero {
+      min-height: 100vh;
+      padding-top: 64px; /* header offset */
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      overflow: hidden;
+      background: var(--warm-bg);
+    }
+
+    /* 薄いアンビエント */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 60% 50% at 90% 5%,
+        rgba(27,58,75,0.07) 0%, transparent 60%);
+    }
+
+    /* ─── LEFT ─── */
+    .hero-left {
+      flex: 1;
+      min-width: 0;
+      padding: 56px 44px 64px 88px;
+      position: relative; z-index: 2;
+    }
+
+    .eyebrow {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.55s ease-out 0.05s forwards;
+    }
+    .eyebrow-bar { width: 26px; height: 2px; background: var(--navy); flex-shrink: 0; }
+    .eyebrow-text {
+      font-size: 11.5px; font-weight: 700;
+      color: var(--navy); letter-spacing: 0.12em;
+      white-space: nowrap;
+    }
+
+    /* H1 */
+    .hero-h1 {
+      font-size: clamp(52px, 5.5vw, 80px);
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -0.04em;
+      color: var(--navy);
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: fadeUp 0.65s ease-out 0.15s forwards;
+    }
+
+    /* Subtitle */
+    .hero-sub {
+      font-size: clamp(14px, 1.2vw, 17px);
+      line-height: 1.80;
+      color: var(--text-body);
+      margin-bottom: 30px;
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out 0.28s forwards;
+    }
+
+    /* CTA */
+    .cta-block {
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out 0.38s forwards;
+    }
+    .micro-copy {
+      font-size: 11.5px; color: var(--text-muted);
+      margin-bottom: 9px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .micro-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--pink);
+      color: var(--white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 15.5px; font-weight: 700;
+      padding: 15px 30px 15px 18px;
+      border: none; border-radius: 11px; cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(255,14,119,0.28);
+      transition: all 0.2s ease;
+    }
+    .cta-btn:hover {
+      background: var(--pink-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(255,14,119,0.34);
+    }
+    .line-pill {
+      width: 28px; height: 28px;
+      background: rgba(255,255,255,0.20);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Trust stats */
+    .trust-stats {
+      border-top: 1px solid var(--divider);
+      padding-top: 30px;
+      display: flex; gap: 0;
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out 0.48s forwards;
+    }
+    .stat-col { padding-right: 22px; }
+    .stat-col:not(:last-child) {
+      border-right: 1px solid var(--divider);
+      margin-right: 22px;
+    }
+    .stat-col:last-child { padding-right: 0; }
+
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(40px, 4vw, 56px);
+      line-height: 1.0;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      display: flex; align-items: baseline; gap: 2px;
+    }
+    .stat-number .unit {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(14px, 1.3vw, 18px);
+      font-weight: 700;
+    }
+    .stat-lbl-main {
+      font-size: 12px; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 3px;
+      white-space: nowrap;
+    }
+    .stat-lbl-sub {
+      font-size: 10.5px; color: var(--text-muted);
+      line-height: 1.55; white-space: nowrap;
+    }
+
+    /* ─── RIGHT: Video collage ───
+       DevTools基準値 (〜1200px, --s=1):
+         vid-main: left:-87   top:0    width:338  height:449
+         vid-sub:  left:204   top:216  width:200  height:303
+       全値を calc(Xpx * var(--s)) でスケール
+    */
+    .hero-right {
+      flex: 0 0 calc(500px * var(--s));   /* コンテナ幅もスケール */
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      align-self: stretch;
+      overflow: visible;
+      opacity: 0;
+      animation: fadeIn 0.85s ease-out 0.25s forwards;
+    }
+
+    /* コラージュの絶対配置基準 */
+    .video-collage {
+      position: absolute;
+      top:   calc(44px * var(--s));   /* 天からの余白もスケール */
+      left:  0; right: 0; bottom: 0;
+    }
+
+    /* VIDEO 1 — メイン（大）  ← DevTools値をそのまま */
+    .vid-main {
+      position: absolute;
+      left:          calc(-87px  * var(--s));
+      top:           0;
+      width:         calc(338px  * var(--s));
+      height:        calc(449px  * var(--s));
+      border-radius: calc(18px   * var(--s));
+      overflow: hidden;
+      background: #0e1a24;
+      box-shadow:
+        0 2px 8px  rgba(27,58,75,0.08),
+        0 16px 44px rgba(27,58,75,0.15),
+        0 44px 88px rgba(27,58,75,0.10);
+      z-index: 2;
+    }
+
+    .vid-main::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30%;
+      background: linear-gradient(to top, rgba(14,26,36,0.52), transparent);
+      z-index: 2; pointer-events: none;
+    }
+
+    /* VIDEO 2 — サブ（小）  ← DevTools値をそのまま */
+    .vid-sub {
+      position: absolute;
+      left:          calc(204px  * var(--s));
+      top:           calc(216px  * var(--s));
+      width:         calc(200px  * var(--s));
+      height:        calc(303px  * var(--s));
+      border-radius: calc(14px   * var(--s));
+      overflow: hidden;
+      background: #0e1a24;
+      outline: calc(4px * var(--s)) solid var(--warm-bg);
+      box-shadow:
+        0 2px 6px  rgba(27,58,75,0.10),
+        0 12px 32px rgba(27,58,75,0.16);
+      z-index: 3;
+    }
+
+    .vid-sub::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 28%;
+      background: linear-gradient(to top, rgba(14,26,36,0.45), transparent);
+      z-index: 2; pointer-events: none;
+    }
+
+    .v-video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    /* サブ動画：120%に拡大してフレームからはみ出させることで
+       overflow:hidden でクリップ → 枠なしで画角を広く見せる */
+    .vid-sub .v-video {
+      position: absolute;
+      top:    -10%;
+      left:   -10%;
+      width:  120%;
+      height: 120%;
+    }
+
+    .vid-caption {
+      position: absolute;
+      bottom: calc(13px * var(--s));
+      left:   calc(13px * var(--s));
+      right:  calc(13px * var(--s));
+      z-index: 3;
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .v-pill {
+      background: rgba(255,255,255,0.13);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.88);
+      font-size: 10.5px; font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: fixed;
+      bottom: 28px; left: 88px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; gap: 8px;
+      z-index: 5;
+      opacity: 0;
+      animation: fadeIn 1s ease-out 1.2s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--divider), transparent);
+    }
+    .scroll-label {
+      font-size: 9px; letter-spacing: 0.14em;
+      color: var(--text-muted);
+      writing-mode: vertical-rl;
+    }
+
+    /* ============================================================
+       PREVIEW STRIP
+       ============================================================ */
+    .preview-strip {
+      background: var(--warm-bg-2);
+      border-top: 1px solid var(--divider);
+      padding: 16px 88px;
+      display: flex; align-items: center;
+      gap: 8px; flex-wrap: wrap;
+    }
+    .preview-note { font-size: 10.5px; color: var(--text-muted); margin-right: 4px; }
+    .preview-pill {
+      background: rgba(255,255,255,0.65);
+      border: 1px solid var(--divider);
+      border-radius: 5px;
+      padding: 4px 12px;
+      font-size: 10.5px; color: var(--text-muted);
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes numPop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .num-pop { animation: numPop 0.24s ease-out; }
+
+    /* ============================================================
+       RESPONSIVE
+       ※ 動画サイズ・位置は :root の --s で一括管理。
+         ここでは左コンテンツのパディングと
+         モバイルの別レイアウトのみ記述。
+       ============================================================ */
+
+    /* ── やや狭い画面: パディング縮小 ── */
+    @media (max-width: 1200px) {
+      .hero-left { padding: 48px 36px 56px 56px; }
+      .hero-sub  { white-space: normal; }
+    }
+
+    @media (max-width: 1050px) {
+      .hero-left { padding: 40px 28px 48px 44px; }
+    }
+
+    /* ── Mobile: 〜767px  縦積みレイアウト ── */
+    @media (max-width: 767px) {
+      .site-header { padding: 0 20px; }
+      .site-nav a:not(.nav-cta) { display: none; }
+
+      .hero {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: auto;
+      }
+
+      /* 動画エリアを上・テキストを下 */
+      .hero-right {
+        order: 1;
+        /* モバイルは --s を使わず固定サイズで最適化 */
+        flex: none;
+        width: 100%;
+        height: 300px;
+        padding: 16px 20px 0;
+        overflow: hidden;
+      }
+      .video-collage { top: 0; }
+
+      /* モバイル: 動画2枚を横並び・% ベースで配置 */
+      .vid-main {
+        left:          4%;
+        top:           16px;
+        width:         52%;
+        height:        270px;
+        border-radius: 12px;
+      }
+      .vid-sub {
+        left:  auto;
+        right: 2%;
+        top:   28px;
+        width: 40%;
+        height: 228px;
+        border-radius: 10px;
+        outline-width: 3px;
+      }
+
+      .hero-left {
+        order: 2;
+        padding: 32px 24px 40px;
+      }
+      .hero-h1 {
+        font-size: clamp(38px, 10vw, 54px);
+        white-space: normal;
+      }
+      .hero-sub { white-space: normal; font-size: 15px; }
+
+      .trust-stats { flex-wrap: wrap; gap: 16px 0; }
+      .stat-col {
+        border-right: none !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+      }
+      .stat-lbl-sub { white-space: normal; }
+      .scroll-hint  { display: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="comp-badge">🎨 デザインカンプ v6 — ファーストビュー / Pattern B（--s スケール管理）</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="#" class="logo">
+    <div class="logo-icon">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+        <path d="M3 11L12 3L21 11V21H15V15H9V21H3V11Z"
+              stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="logo-text">ほけん家族</span>
+  </a>
+  <nav class="site-nav">
+    <a href="#">保険の見直し</a>
+    <a href="#">ご相談の流れ</a>
+    <a href="#">よくある質問</a>
+    <a href="#" class="nav-cta">無料相談</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+
+  <!-- LEFT -->
+  <div class="hero-left">
+
+    <div class="eyebrow">
+      <div class="eyebrow-bar"></div>
+      <span class="eyebrow-text">保険と家計の相談窓口</span>
+    </div>
+
+    <h1 class="hero-h1">
+      その保険、<br>
+      毎月ムダを<br>
+      払っているかも。
+    </h1>
+
+    <p class="hero-sub">LINEで3分送るだけで、削れる金額がわかります。</p>
+
+    <div class="cta-block">
+      <div class="micro-copy">
+        <div class="micro-dot"></div>
+        たった3つの質問。約3分で完了
+      </div>
+      <button class="cta-btn">
+        <div class="line-pill">
+          <!-- LINE icon -->
+          <svg width="16" height="16" viewBox="0 0 36 36" fill="white">
+            <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07
+                     L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07
+                     c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12
+                     C33 8.94 26.28 3 18 3z
+                     m-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6z
+                     m2.6 0h-1.6v-7.6h1.6v7.6z
+                     m7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6z
+                     m4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
+          </svg>
+        </div>
+        無料で、3分チェックする &thinsp;→
+      </button>
+    </div>
+
+    <!-- Trust stats -->
+    <div class="trust-stats" id="trustStats">
+
+      <div class="stat-col">
+        <div class="stat-number">
+          <span class="count-num" data-target="75">0</span><span class="unit">年</span>
+        </div>
+        <div class="stat-lbl-main">創業年数</div>
+        <div class="stat-lbl-sub">地域に根ざした実績と信頼</div>
+      </div>
+
+      <div class="stat-col">
+        <div class="stat-number">
+          <span class="count-num" data-target="10000" data-format="comma">0</span><span class="unit">件以上</span>
+        </div>
+        <div class="stat-lbl-main">累計相談件数</div>
+        <div class="stat-lbl-sub">幅広い年代・状況をサポート</div>
+      </div>
+
+      <div class="stat-col">
+        <div class="stat-number">
+          <span class="count-text" data-text="No.1" style="font-size:clamp(36px,3.8vw,48px);">—</span>
+        </div>
+        <div class="stat-lbl-main">千葉県相談実績</div>
+        <div class="stat-lbl-sub">7年連続・地元で最も選ばれる<small style="font-size:9px;">※</small></div>
+      </div>
+
+    </div>
+  </div><!-- /hero-left -->
+
+  <!-- RIGHT: Two-video collage -->
+  <div class="hero-right">
+    <div class="video-collage">
+
+      <!-- VIDEO 1: メイン（大・店舗外観〜相談） -->
+      <div class="vid-main">
+        <video class="v-video" src="./hero-video.mp4"
+               autoplay muted loop playsinline></video>
+        <div class="vid-caption">
+          <span class="v-pill">📍 千葉県茂原市</span>
+          <span class="v-pill">対面 · 完全無料</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 2: サブ（小・お客様アップ〜店舗雰囲気） -->
+      <div class="vid-sub">
+        <video class="v-video" src="./hero-video-2.mp4"
+               autoplay muted loop playsinline></video>
+      </div>
+
+    </div>
+  </div><!-- /hero-right -->
+
+
+</section>
+
+<!-- PREVIEW STRIP -->
+<div class="preview-strip">
+  <span class="preview-note">以降のセクション構成（ワイヤー準拠）：</span>
+  <span class="preview-pill">こんなお悩み</span>
+  <span class="preview-pill">問題提起</span>
+  <span class="preview-pill">3STEPチェック</span>
+  <span class="preview-pill">利用の流れ</span>
+  <span class="preview-pill">お客様の声</span>
+  <span class="preview-pill">選ばれる理由</span>
+  <span class="preview-pill">CTA</span>
+  <span class="preview-pill">Footer</span>
+</div>
+
+<!-- JS: play + count-up -->
+<script>
+  // Play all videos
+  document.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
+
+  // Count-up
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function countUp(el, target, duration, format) {
+    const t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const val = Math.round(easeOutCubic(p) * target);
+      el.textContent = format === 'comma' ? val.toLocaleString('ja-JP') : val;
+      if (p < 1) requestAnimationFrame(tick);
+      else {
+        el.classList.add('num-pop');
+        setTimeout(() => el.classList.remove('num-pop'), 280);
+      }
+    })(t0);
+  }
+
+  const stats = document.getElementById('trustStats');
+  let fired = false;
+
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !fired) {
+      fired = true;
+      document.querySelectorAll('.count-num').forEach((el, i) => {
+        setTimeout(() =>
+          countUp(el, +el.dataset.target, 1800, el.dataset.format),
+          i * 100
+        );
+      });
+      document.querySelectorAll('.count-text').forEach((el, i) => {
+        setTimeout(() => {
+          el.textContent = el.dataset.text;
+          el.classList.add('num-pop');
+          setTimeout(() => el.classList.remove('num-pop'), 280);
+        }, 200 + i * 100);
+      });
+    }
+  }, { threshold: 0.3 }).observe(stats);
+</script>
+
+</body>
+</html>
