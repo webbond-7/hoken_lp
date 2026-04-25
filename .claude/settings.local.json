@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(jpg|png|mp4\\)$\")",
+      "mcp__b2e90841-0a04-4f3f-a651-a19bf42391a7__use_figma",
+      "Bash(mkdir -p /Users/gototetsuji/ほけん家族LP/hoken_lp/.claude/worktrees/gallant-brahmagupta-fef211/images)",
+      "Bash(cp \"ファイル - 2026-03-19T08_42_46.221Z.jpg\" \".claude/worktrees/gallant-brahmagupta-fef211/images/exterior-1.jpg\")",
+      "Bash(cp \"ファイル - 2026-03-19T08_42_55.592Z.jpg\" \".claude/worktrees/gallant-brahmagupta-fef211/images/exterior-2.jpg\")",
+      "Bash(cp \"ファイル - 2026-03-19T08_43_52.308Z.jpg\" \".claude/worktrees/gallant-brahmagupta-fef211/images/interior-sofa.jpg\")",
+      "Bash(cp \"ファイル - 2026-03-19T08_43_55.228Z.jpg\" \".claude/worktrees/gallant-brahmagupta-fef211/images/interior-room.jpg\")",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

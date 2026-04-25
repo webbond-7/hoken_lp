@@ -3,687 +3,2014 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ほけん家族 — ファーストビュー デザインカンプ v6</title>
+  <title>ほけん家族｜保険と家計の相談窓口（千葉県茂原市）</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --navy:       #1B3A4B;
+  --navy-dark:  #122836;
+  --navy-mid:   #234d63;
+  --pink:       #FF0E77;
+  --pink-hover: #E0006A;
+  --pink-light: rgba(255,14,119,0.10);
+  --warm-bg:    #F7F5F0;
+  --warm-bg-2:  #EDE9E2;
+  --white:      #FFFFFF;
+  --text-dark:  #141F27;
+  --text-body:  #4A4A4A;
+  --text-muted: #8A8A8A;
+  --border:     #E5E9EC;
+  --divider:    #D6D0C6;
+  --radius-card: 20px;
+  --radius-btn:  14px;
+  --shadow-card: 0 4px 24px rgba(27,58,75,0.09), 0 1px 4px rgba(27,58,75,0.06);
+  --shadow-hero: 0 8px 48px rgba(27,58,75,0.18), 0 2px 8px rgba(27,58,75,0.10);
+}
 
-    /* =============================================
-       DESIGN TOKENS — Pattern B 確定版
-       ============================================= */
-    :root {
-      --navy:       #1B3A4B;
-      --pink:       #FF0E77;
-      --pink-hover: #E0006A;
-      --warm-bg:    #F7F5F0;
-      --warm-bg-2:  #EDE9E2;
-      --text-dark:  #141F27;
-      --text-body:  #4A4A4A;
-      --text-muted: #8A8A8A;
-      --divider:    #D6D0C6;
-      --white:      #FFFFFF;
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-      /*
-       * ─── VIDEO COLLAGE SCALE SYSTEM ───
-       * 基準値: DevTools調整値 (〜1200px 時)
-       *   vid-main : left:-87px  width:338px  height:449px
-       *   vid-sub  : left:204px  top:216px    width:200px  height:303px
-       * --s を変えるだけで全ブレークポイントが比例スケール
-       */
-      --s: 1;
-    }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--warm-bg);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-    /* ── Responsive scale steps ── */
-    @media (min-width: 1600px) { :root { --s: 1.32; } }
-    @media (min-width: 1400px) and (max-width: 1599px) { :root { --s: 1.18; } }
-    /* 1200px〜1399px : --s = 1.0 (基準) */
-    @media (max-width: 1050px) and (min-width: 769px) { :root { --s: 0.84; } }
-    @media (max-width: 900px)  and (min-width: 769px) { :root { --s: 0.72; } }
+.num { font-family: 'Manrope', sans-serif; }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+.l-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
 
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-      background: var(--warm-bg);
-      color: var(--text-dark);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+@media (max-width: 1100px) { .l-container { padding: 0 48px; } }
+@media (max-width: 768px)  { .l-container { padding: 0 24px; } }
 
-    .comp-badge {
-      position: fixed;
-      top: 10px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      background: rgba(20,31,39,0.80);
-      color: rgba(255,255,255,0.68);
-      font-size: 10px;
-      letter-spacing: 0.07em;
-      padding: 5px 16px;
-      border-radius: 100px;
-      backdrop-filter: blur(12px);
-      pointer-events: none;
-      white-space: nowrap;
-    }
+/* ============================================================
+   FADE-UP ANIMATION (scroll trigger)
+   ============================================================ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+              transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up.d1 { transition-delay: 0.08s; }
+.fade-up.d2 { transition-delay: 0.16s; }
+.fade-up.d3 { transition-delay: 0.24s; }
+.fade-up.d4 { transition-delay: 0.32s; }
+.fade-up.d5 { transition-delay: 0.40s; }
 
-    /* ============================================================
-       HEADER
-       ============================================================ */
-    .site-header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      height: 64px;
-      padding: 0 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(247,245,240,0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(27,58,75,0.09);
-    }
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 68px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(247,245,240,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(27,58,75,0.08);
+  transition: box-shadow 0.3s;
+}
+.site-header.scrolled { box-shadow: 0 2px 16px rgba(27,58,75,0.10); }
 
-    .logo {
-      display: flex; align-items: center; gap: 9px;
-      text-decoration: none;
-    }
-    .logo-icon {
-      width: 34px; height: 34px;
-      background: var(--navy);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .logo-text {
-      font-size: 16px; font-weight: 900;
-      color: var(--navy); letter-spacing: -0.02em;
-    }
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--navy);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-text {
+  font-size: 17px; font-weight: 900;
+  color: var(--navy); letter-spacing: -0.02em;
+}
+.logo-sub {
+  font-size: 10px; font-weight: 500;
+  color: var(--text-muted); letter-spacing: 0.06em;
+  margin-top: 1px;
+}
 
-    .site-nav {
-      display: flex; align-items: center; gap: 28px;
-    }
-    .site-nav a {
-      font-size: 13px; font-weight: 500;
-      color: var(--text-body); text-decoration: none;
-      transition: color 0.18s;
-    }
-    .site-nav a:hover { color: var(--navy); }
-    .nav-cta {
-      background: var(--navy) !important;
-      color: var(--white) !important;
-      font-weight: 700 !important;
-      padding: 9px 20px;
-      border-radius: 8px;
-    }
+.site-nav {
+  display: flex; align-items: center; gap: 32px;
+}
+.site-nav a {
+  font-size: 13px; font-weight: 500;
+  color: var(--text-body); text-decoration: none;
+  transition: color 0.18s;
+}
+.site-nav a:hover { color: var(--navy); }
 
-    /* ============================================================
-       HERO — flex-start で天揃え
-       ============================================================ */
-    .hero {
-      min-height: 100vh;
-      padding-top: 64px; /* header offset */
-      display: flex;
-      align-items: flex-start;
-      position: relative;
-      overflow: hidden;
-      background: var(--warm-bg);
-    }
+.c-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
+  border: none; cursor: pointer;
+  border-radius: var(--radius-btn);
+  transition: all 0.22s cubic-bezier(0.22,1,0.36,1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.c-btn--pink {
+  background: var(--pink);
+  color: var(--white);
+  box-shadow: 0 4px 20px rgba(255,14,119,0.28);
+}
+.c-btn--pink:hover {
+  background: var(--pink-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255,14,119,0.36);
+}
+.c-btn--navy {
+  background: var(--navy);
+  color: var(--white);
+  box-shadow: 0 4px 16px rgba(27,58,75,0.22);
+}
+.c-btn--navy:hover {
+  background: var(--navy-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(27,58,75,0.30);
+}
+.c-btn--outline {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.5);
+}
+.c-btn--outline:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: var(--white);
+}
+.c-btn--lg { font-size: 16px; padding: 16px 32px 16px 24px; }
+.c-btn--md { font-size: 14px; padding: 12px 24px 12px 18px; }
+.c-btn--sm { font-size: 13px; padding: 10px 20px; border-radius: 10px; }
 
-    /* 薄いアンビエント */
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      pointer-events: none;
-      background: radial-gradient(ellipse 60% 50% at 90% 5%,
-        rgba(27,58,75,0.07) 0%, transparent 60%);
-    }
+.line-icon {
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
 
-    /* ─── LEFT ─── */
-    .hero-left {
-      flex: 1;
-      min-width: 0;
-      padding: 56px 44px 64px 88px;
-      position: relative; z-index: 2;
-    }
+.nav-cta {
+  font-size: 13px; padding: 9px 18px;
+}
 
-    .eyebrow {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.55s ease-out 0.05s forwards;
-    }
-    .eyebrow-bar { width: 26px; height: 2px; background: var(--navy); flex-shrink: 0; }
-    .eyebrow-text {
-      font-size: 11.5px; font-weight: 700;
-      color: var(--navy); letter-spacing: 0.12em;
-      white-space: nowrap;
-    }
+/* ============================================================
+   SECTION KICKER & TITLE
+   ============================================================ */
+.section__kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--navy); margin-bottom: 18px;
+}
+.section__kicker::before {
+  content: '';
+  display: block; width: 24px; height: 2px;
+  background: var(--pink); flex-shrink: 0;
+}
+.section__kicker--white { color: rgba(255,255,255,0.65); }
+.section__kicker--white::before { background: var(--pink); }
 
-    /* H1 */
-    .hero-h1 {
-      font-size: clamp(52px, 5.5vw, 80px);
-      font-weight: 900;
-      line-height: 1.18;
-      letter-spacing: -0.04em;
-      color: var(--navy);
-      margin-bottom: 22px;
-      opacity: 0;
-      animation: fadeUp 0.65s ease-out 0.15s forwards;
-    }
+.section__title {
+  font-size: clamp(32px, 3.8vw, 52px);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+.section__title--white { color: var(--white); }
 
-    /* Subtitle */
-    .hero-sub {
-      font-size: clamp(14px, 1.2vw, 17px);
-      line-height: 1.80;
-      color: var(--text-body);
-      margin-bottom: 30px;
-      white-space: nowrap;
-      opacity: 0;
-      animation: fadeUp 0.6s ease-out 0.28s forwards;
-    }
+.section__lead {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: 56px;
+}
+.section__lead--white { color: rgba(255,255,255,0.80); }
 
-    /* CTA */
-    .cta-block {
-      margin-bottom: 44px;
-      opacity: 0;
-      animation: fadeUp 0.6s ease-out 0.38s forwards;
-    }
-    .micro-copy {
-      font-size: 11.5px; color: var(--text-muted);
-      margin-bottom: 9px;
-      display: flex; align-items: center; gap: 5px;
-    }
-    .micro-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+/* ============================================================
+   HERO (01 FV)
+   ============================================================ */
+.p-hero {
+  min-height: 100vh;
+  padding-top: 68px;
+  display: flex;
+  align-items: stretch;
+  background: var(--warm-bg);
+  position: relative;
+  overflow: hidden;
+}
 
-    .cta-btn {
-      display: inline-flex; align-items: center; gap: 12px;
-      background: var(--pink);
-      color: var(--white);
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 15.5px; font-weight: 700;
-      padding: 15px 30px 15px 18px;
-      border: none; border-radius: 11px; cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 4px 18px rgba(255,14,119,0.28);
-      transition: all 0.2s ease;
-    }
-    .cta-btn:hover {
-      background: var(--pink-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 26px rgba(255,14,119,0.34);
-    }
-    .line-pill {
-      width: 28px; height: 28px;
-      background: rgba(255,255,255,0.20);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
+.p-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 55% 60% at 100% 0%,
+    rgba(27,58,75,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
 
-    /* Trust stats */
-    .trust-stats {
-      border-top: 1px solid var(--divider);
-      padding-top: 30px;
-      display: flex; gap: 0;
-      opacity: 0;
-      animation: fadeUp 0.6s ease-out 0.48s forwards;
-    }
-    .stat-col { padding-right: 22px; }
-    .stat-col:not(:last-child) {
-      border-right: 1px solid var(--divider);
-      margin-right: 22px;
-    }
-    .stat-col:last-child { padding-right: 0; }
+.p-hero__left {
+  flex: 1;
+  min-width: 0;
+  padding: 64px 48px 72px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative; z-index: 2;
+}
 
-    .stat-number {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(40px, 4vw, 56px);
-      line-height: 1.0;
-      color: var(--navy);
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-      display: flex; align-items: baseline; gap: 2px;
-    }
-    .stat-number .unit {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(14px, 1.3vw, 18px);
-      font-weight: 700;
-    }
-    .stat-lbl-main {
-      font-size: 12px; font-weight: 700;
-      color: var(--text-dark); margin-bottom: 3px;
-      white-space: nowrap;
-    }
-    .stat-lbl-sub {
-      font-size: 10.5px; color: var(--text-muted);
-      line-height: 1.55; white-space: nowrap;
-    }
+.p-hero__eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+}
+.p-hero__eyebrow-bar { width: 28px; height: 2px; background: var(--pink); flex-shrink: 0; }
+.p-hero__eyebrow-text {
+  font-size: 12px; font-weight: 700;
+  color: var(--navy); letter-spacing: 0.12em;
+}
 
-    /* ─── RIGHT: Video collage ───
-       DevTools基準値 (〜1200px, --s=1):
-         vid-main: left:-87   top:0    width:338  height:449
-         vid-sub:  left:204   top:216  width:200  height:303
-       全値を calc(Xpx * var(--s)) でスケール
-    */
-    .hero-right {
-      flex: 0 0 calc(500px * var(--s));   /* コンテナ幅もスケール */
-      min-width: 0;
-      position: relative;
-      z-index: 2;
-      align-self: stretch;
-      overflow: visible;
-      opacity: 0;
-      animation: fadeIn 0.85s ease-out 0.25s forwards;
-    }
+.p-hero__h1 {
+  font-size: clamp(48px, 5.5vw, 76px);
+  font-weight: 900;
+  line-height: 1.18;
+  letter-spacing: -0.04em;
+  color: var(--navy);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: heroFadeUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+}
 
-    /* コラージュの絶対配置基準 */
-    .video-collage {
-      position: absolute;
-      top:   calc(44px * var(--s));   /* 天からの余白もスケール */
-      left:  0; right: 0; bottom: 0;
-    }
+.p-hero__sub {
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.32s forwards;
+}
+.p-hero__sub strong {
+  color: var(--navy); font-weight: 700;
+}
 
-    /* VIDEO 1 — メイン（大）  ← DevTools値をそのまま */
-    .vid-main {
-      position: absolute;
-      left:          calc(-87px  * var(--s));
-      top:           0;
-      width:         calc(338px  * var(--s));
-      height:        calc(449px  * var(--s));
-      border-radius: calc(18px   * var(--s));
-      overflow: hidden;
-      background: #0e1a24;
-      box-shadow:
-        0 2px 8px  rgba(27,58,75,0.08),
-        0 16px 44px rgba(27,58,75,0.15),
-        0 44px 88px rgba(27,58,75,0.10);
-      z-index: 2;
-    }
+.p-hero__cta-wrap {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.42s forwards;
+}
+.p-hero__cta-note {
+  font-size: 11.5px; color: var(--text-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.p-hero__cta-note::before {
+  content: '';
+  display: block; width: 3px; height: 3px;
+  border-radius: 50%; background: var(--text-muted);
+}
 
-    .vid-main::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 30%;
-      background: linear-gradient(to top, rgba(14,26,36,0.52), transparent);
-      z-index: 2; pointer-events: none;
-    }
+.p-hero__stats {
+  border-top: 1px solid var(--divider);
+  padding-top: 36px;
+  display: flex; gap: 0;
+  opacity: 0;
+  animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.54s forwards;
+}
+.p-hero__stat {
+  padding-right: 28px;
+  flex: 1;
+}
+.p-hero__stat:not(:last-child) {
+  border-right: 1px solid var(--divider);
+  margin-right: 28px;
+}
+.p-hero__stat-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  display: flex; align-items: baseline; gap: 3px;
+}
+.p-hero__stat-unit {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 700; color: var(--navy);
+}
+.p-hero__stat-label {
+  font-size: 12px; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 3px;
+}
+.p-hero__stat-note {
+  font-size: 10.5px; color: var(--text-muted); line-height: 1.5;
+}
 
-    /* VIDEO 2 — サブ（小）  ← DevTools値をそのまま */
-    .vid-sub {
-      position: absolute;
-      left:          calc(204px  * var(--s));
-      top:           calc(216px  * var(--s));
-      width:         calc(200px  * var(--s));
-      height:        calc(303px  * var(--s));
-      border-radius: calc(14px   * var(--s));
-      overflow: hidden;
-      background: #0e1a24;
-      outline: calc(4px * var(--s)) solid var(--warm-bg);
-      box-shadow:
-        0 2px 6px  rgba(27,58,75,0.10),
-        0 12px 32px rgba(27,58,75,0.16);
-      z-index: 3;
-    }
+/* Hero Right - Video */
+.p-hero__right {
+  flex: 0 0 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 64px 80px 0;
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: heroFadeIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.28s forwards;
+}
 
-    .vid-sub::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 28%;
-      background: linear-gradient(to top, rgba(14,26,36,0.45), transparent);
-      z-index: 2; pointer-events: none;
-    }
+.p-hero__video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9/16;
+  max-height: calc(100vh - 180px);
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--navy-dark);
+  box-shadow: var(--shadow-hero);
+}
 
-    .v-video {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-    }
-    /* サブ動画：120%に拡大してフレームからはみ出させることで
-       overflow:hidden でクリップ → 枠なしで画角を広く見せる */
-    .vid-sub .v-video {
-      position: absolute;
-      top:    -10%;
-      left:   -10%;
-      width:  120%;
-      height: 120%;
-    }
+.p-hero__video-wrap video {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
 
-    .vid-caption {
-      position: absolute;
-      bottom: calc(13px * var(--s));
-      left:   calc(13px * var(--s));
-      right:  calc(13px * var(--s));
-      z-index: 3;
-      display: flex; gap: 6px; flex-wrap: wrap;
-    }
-    .v-pill {
-      background: rgba(255,255,255,0.13);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.22);
-      color: rgba(255,255,255,0.88);
-      font-size: 10.5px; font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 100px;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
+.p-hero__video-badge {
+  position: absolute;
+  bottom: 20px; left: 20px; right: 20px;
+  display: flex; gap: 8px; flex-wrap: wrap;
+  z-index: 3;
+}
+.v-badge {
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.90);
+  font-size: 11px; font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+}
 
-    /* Scroll hint */
-    .scroll-hint {
-      position: fixed;
-      bottom: 28px; left: 88px;
-      display: flex;
-      flex-direction: column;
-      align-items: center; gap: 8px;
-      z-index: 5;
-      opacity: 0;
-      animation: fadeIn 1s ease-out 1.2s forwards;
-    }
-    .scroll-line {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, var(--divider), transparent);
-    }
-    .scroll-label {
-      font-size: 9px; letter-spacing: 0.14em;
-      color: var(--text-muted);
-      writing-mode: vertical-rl;
-    }
+.p-hero__video-wrap::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(18,40,54,0.55), transparent);
+  z-index: 2; pointer-events: none;
+}
 
-    /* ============================================================
-       PREVIEW STRIP
-       ============================================================ */
-    .preview-strip {
-      background: var(--warm-bg-2);
-      border-top: 1px solid var(--divider);
-      padding: 16px 88px;
-      display: flex; align-items: center;
-      gap: 8px; flex-wrap: wrap;
-    }
-    .preview-note { font-size: 10.5px; color: var(--text-muted); margin-right: 4px; }
-    .preview-pill {
-      background: rgba(255,255,255,0.65);
-      border: 1px solid var(--divider);
-      border-radius: 5px;
-      padding: 4px 12px;
-      font-size: 10.5px; color: var(--text-muted);
-    }
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
-    /* ============================================================
-       ANIMATIONS
-       ============================================================ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes numPop {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    .num-pop { animation: numPop 0.24s ease-out; }
+/* ============================================================
+   STATS BAR (数字で知るほけん家族)
+   ============================================================ */
+.p-stats {
+  background: var(--navy);
+  padding: 72px 0;
+}
+.p-stats__inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.p-stats__item {
+  padding: 0 40px;
+  text-align: center;
+  position: relative;
+}
+.p-stats__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 10%; bottom: 10%;
+  width: 1px; background: rgba(255,255,255,0.15);
+}
+.p-stats__num {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(48px, 5.5vw, 72px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.p-stats__num span.unit {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 700;
+  vertical-align: baseline;
+}
+.p-stats__num .pink { color: var(--pink); }
+.p-stats__label {
+  font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 6px;
+}
+.p-stats__note {
+  font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.5;
+}
 
-    /* ============================================================
-       RESPONSIVE
-       ※ 動画サイズ・位置は :root の --s で一括管理。
-         ここでは左コンテンツのパディングと
-         モバイルの別レイアウトのみ記述。
-       ============================================================ */
+/* ============================================================
+   ASSET COMPARISON (02)
+   ============================================================ */
+.p-asset {
+  background: var(--navy);
+  padding: 112px 0;
+}
+.p-asset__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.p-asset__text {}
+.p-asset__compare {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-card);
+  padding: 48px;
+}
+.p-asset__compare-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.p-asset__card {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+}
+.p-asset__card--after {
+  background: rgba(255,14,119,0.12);
+  border: 1.5px solid rgba(255,14,119,0.30);
+}
+.p-asset__card-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 10px;
+}
+.p-asset__card--after .p-asset__card-label { color: rgba(255,14,119,0.80); }
+.p-asset__card-amount {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(32px, 3.5vw, 44px);
+  font-weight: 900;
+  color: rgba(255,255,255,0.60);
+  line-height: 1.1;
+}
+.p-asset__card--after .p-asset__card-amount { color: var(--pink); }
+.p-asset__arrow {
+  font-size: 28px; color: rgba(255,255,255,0.30);
+  flex-shrink: 0;
+}
+.p-asset__note {
+  font-size: 11.5px; color: rgba(255,255,255,0.40);
+  margin-top: 20px; line-height: 1.6;
+}
 
-    /* ── やや狭い画面: パディング縮小 ── */
-    @media (max-width: 1200px) {
-      .hero-left { padding: 48px 36px 56px 56px; }
-      .hero-sub  { white-space: normal; }
-    }
+/* ============================================================
+   TRUST / STORY (03)
+   ============================================================ */
+.p-trust {
+  background: var(--warm-bg);
+  padding: 120px 0;
+}
+.p-trust__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.p-trust__features {
+  display: flex; flex-direction: column; gap: 36px;
+}
+.p-trust__feature {
+  display: flex; gap: 24px;
+  align-items: flex-start;
+}
+.p-trust__feature-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--pink);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.p-trust__feature-title {
+  font-size: 18px; font-weight: 900;
+  color: var(--navy);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.p-trust__feature-body {
+  font-size: 14px; line-height: 1.8;
+  color: var(--text-body);
+}
 
-    @media (max-width: 1050px) {
-      .hero-left { padding: 40px 28px 48px 44px; }
-    }
+.p-trust__story {}
+.p-trust__president {
+  display: flex; gap: 24px; align-items: flex-start;
+  margin-bottom: 28px;
+}
+.p-trust__president-photo {
+  width: 100px; height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-card);
+}
+.p-trust__president-photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top;
+}
+.p-trust__president-info {}
+.p-trust__president-name {
+  font-size: 18px; font-weight: 900;
+  color: var(--navy); margin-bottom: 4px;
+}
+.p-trust__president-title {
+  font-size: 12px; color: var(--text-muted); line-height: 1.6;
+}
+.p-trust__story-text {
+  font-size: 14.5px; line-height: 2.0;
+  color: var(--text-body);
+  white-space: pre-line;
+}
+.p-trust__story-highlight {
+  font-size: 16px; font-weight: 700;
+  color: var(--navy);
+  border-left: 3px solid var(--pink);
+  padding: 12px 16px;
+  margin: 24px 0;
+  background: rgba(255,14,119,0.04);
+  border-radius: 0 8px 8px 0;
+}
 
-    /* ── Mobile: 〜767px  縦積みレイアウト ── */
-    @media (max-width: 767px) {
-      .site-header { padding: 0 20px; }
-      .site-nav a:not(.nav-cta) { display: none; }
+.p-trust__gallery {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.p-trust__gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  box-shadow: var(--shadow-card);
+}
+.p-trust__gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.p-trust__gallery-item:hover img { transform: scale(1.04); }
 
-      .hero {
-        flex-direction: column;
-        align-items: stretch;
-        min-height: auto;
-      }
+.p-trust__awards {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: 40px;
+  background: var(--navy);
+  border-radius: var(--radius-card);
+  padding: 40px 48px;
+  margin-top: 16px;
+}
+.p-trust__awards-photo {
+  width: 180px; height: 140px;
+  border-radius: 12px;
+  overflow: hidden; flex-shrink: 0;
+}
+.p-trust__awards-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.p-trust__awards-text { flex: 1; }
+.p-trust__awards-title {
+  font-size: 22px; font-weight: 900;
+  color: var(--white); margin-bottom: 10px; line-height: 1.4;
+}
+.p-trust__awards-body {
+  font-size: 14px; line-height: 1.8;
+  color: rgba(255,255,255,0.65);
+}
 
-      /* 動画エリアを上・テキストを下 */
-      .hero-right {
-        order: 1;
-        /* モバイルは --s を使わず固定サイズで最適化 */
-        flex: none;
-        width: 100%;
-        height: 300px;
-        padding: 16px 20px 0;
-        overflow: hidden;
-      }
-      .video-collage { top: 0; }
+/* ============================================================
+   BEFORE / AFTER (04)
+   ============================================================ */
+.p-ba {
+  background: var(--white);
+  padding: 120px 0;
+}
+.p-ba__head { text-align: center; margin-bottom: 72px; }
+.p-ba__cases {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+}
+.p-ba__case {
+  background: var(--warm-bg);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.p-ba__case-tag {
+  background: var(--navy);
+  padding: 14px 28px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.65);
+}
+.p-ba__case-body { padding: 36px 36px 28px; }
+.p-ba__compare {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 28px;
+}
+.p-ba__amount-block { flex: 1; text-align: center; }
+.p-ba__label {
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.10em;
+  margin-bottom: 8px;
+}
+.p-ba__label--before { color: var(--text-muted); }
+.p-ba__label--after  { color: var(--pink); }
+.p-ba__amount {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.p-ba__amount--before {
+  font-size: clamp(28px, 3vw, 38px);
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(138,138,138,0.5);
+}
+.p-ba__amount--after {
+  font-size: clamp(36px, 4vw, 52px);
+  color: var(--pink);
+}
+.p-ba__arrow-icon {
+  font-size: 24px; color: var(--border); flex-shrink: 0;
+}
+.p-ba__point {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px 20px;
+  border: 1px solid var(--border);
+}
+.p-ba__point-title {
+  font-size: 11px; font-weight: 800;
+  color: var(--navy); letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.p-ba__point-title::before {
+  content: '';
+  width: 12px; height: 2px; background: var(--pink);
+}
+.p-ba__point-body {
+  font-size: 13px; line-height: 1.8;
+  color: var(--text-body);
+}
+.p-ba__note {
+  font-size: 11.5px; color: var(--text-muted);
+  text-align: center; margin-top: 40px;
+}
 
-      /* モバイル: 動画2枚を横並び・% ベースで配置 */
-      .vid-main {
-        left:          4%;
-        top:           16px;
-        width:         52%;
-        height:        270px;
-        border-radius: 12px;
-      }
-      .vid-sub {
-        left:  auto;
-        right: 2%;
-        top:   28px;
-        width: 40%;
-        height: 228px;
-        border-radius: 10px;
-        outline-width: 3px;
-      }
+/* ============================================================
+   MID CTA (05)
+   ============================================================ */
+.p-mid-cta {
+  background: var(--navy);
+  padding: 96px 0;
+  position: relative;
+  overflow: hidden;
+}
+.p-mid-cta::before {
+  content: '';
+  position: absolute;
+  right: -10%; top: -40%;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,14,119,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.p-mid-cta__inner { text-align: center; }
+.p-mid-cta__tags {
+  display: flex; justify-content: center; gap: 12px;
+  flex-wrap: wrap; margin-bottom: 28px;
+}
+.p-mid-cta__tag {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.20);
+  color: rgba(255,255,255,0.75);
+  font-size: 13px; font-weight: 500;
+  padding: 7px 18px;
+  border-radius: 100px;
+}
+.p-mid-cta__heading {
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+.p-mid-cta__sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.p-mid-cta__btns {
+  display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+}
 
-      .hero-left {
-        order: 2;
-        padding: 32px 24px 40px;
-      }
-      .hero-h1 {
-        font-size: clamp(38px, 10vw, 54px);
-        white-space: normal;
-      }
-      .hero-sub { white-space: normal; font-size: 15px; }
+/* ============================================================
+   TESTIMONIALS (06)
+   ============================================================ */
+.p-voice {
+  background: var(--warm-bg);
+  padding: 120px 0;
+}
+.p-voice__head { text-align: center; margin-bottom: 64px; }
+.p-voice__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.c-card {
+  background: var(--white);
+  border-radius: var(--radius-card);
+  padding: 36px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.c-card__quote {
+  font-family: 'Manrope', sans-serif;
+  font-size: 48px; font-weight: 900;
+  color: var(--pink);
+  line-height: 1;
+  margin-bottom: 12px;
+  opacity: 0.25;
+  letter-spacing: -0.05em;
+}
+.c-card__text {
+  font-size: 15px; line-height: 1.9;
+  color: var(--text-body);
+  margin-bottom: 20px;
+}
+.c-card__author {
+  font-size: 12px; font-weight: 700;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.c-card__author::before {
+  content: '';
+  display: block; width: 20px; height: 1px;
+  background: var(--text-muted);
+}
+.p-voice__note {
+  font-size: 11.5px; color: var(--text-muted);
+  text-align: center; margin-top: 36px;
+}
 
-      .trust-stats { flex-wrap: wrap; gap: 16px 0; }
-      .stat-col {
-        border-right: none !important;
-        margin-right: 0 !important;
-        padding-right: 0 !important;
-      }
-      .stat-lbl-sub { white-space: normal; }
-      .scroll-hint  { display: none; }
-    }
+/* ============================================================
+   TARGET USERS (07)
+   ============================================================ */
+.p-target {
+  background: var(--white);
+  padding: 120px 0;
+}
+.p-target__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.p-target__image {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-hero);
+  aspect-ratio: 4/5;
+}
+.p-target__image img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.p-target__list {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.p-target__item {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 20px 24px;
+  background: var(--warm-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.p-target__item:hover {
+  border-color: rgba(27,58,75,0.20);
+  box-shadow: var(--shadow-card);
+}
+.p-target__item-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--pink);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.p-target__item-check svg { display: block; }
+.p-target__item-text {
+  font-size: 14px; line-height: 1.7;
+  color: var(--text-dark); font-weight: 500;
+}
 
+/* ============================================================
+   FLOW (08)
+   ============================================================ */
+.p-flow {
+  background: var(--navy);
+  padding: 120px 0;
+}
+.p-flow__head { text-align: center; margin-bottom: 72px; }
+.p-flow__steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  position: relative;
+  margin-bottom: 56px;
+}
+.p-flow__steps::before {
+  content: '';
+  position: absolute;
+  top: 36px; left: 10%; right: 10%;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+.p-flow__step { text-align: center; padding: 0 12px; }
+.p-flow__step-num {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.20);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 20px; font-weight: 900;
+  color: var(--white);
+  position: relative; z-index: 1;
+  transition: background 0.3s, border-color 0.3s;
+}
+.p-flow__step:first-child .p-flow__step-num {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 0 0 6px rgba(255,14,119,0.20);
+}
+.p-flow__step-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--white); line-height: 1.5;
+  margin-bottom: 8px;
+}
+.p-flow__step-note {
+  font-size: 11.5px; color: rgba(255,255,255,0.45); line-height: 1.6;
+}
+.p-flow__cta { text-align: center; }
+.p-flow__cta-note {
+  font-size: 13px; color: rgba(255,255,255,0.55);
+  margin-top: 16px;
+}
+
+/* ============================================================
+   FAQ (09)
+   ============================================================ */
+.p-faq {
+  background: var(--warm-bg);
+  padding: 120px 0;
+}
+.p-faq__head { text-align: center; margin-bottom: 64px; }
+.p-faq__list {
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex; flex-direction: column; gap: 0;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+.p-faq__item { border-bottom: 1px solid var(--border); }
+.p-faq__item:last-child { border-bottom: none; }
+.p-faq__q {
+  width: 100%;
+  display: flex; align-items: center; gap: 16px;
+  padding: 26px 32px;
+  background: none; border: none; cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+.p-faq__q:hover { background: rgba(27,58,75,0.03); }
+.p-faq__q-mark {
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px; font-weight: 900;
+  color: var(--pink);
+  flex-shrink: 0; width: 28px;
+}
+.p-faq__q-text {
+  flex: 1;
+  font-size: 15px; font-weight: 700;
+  color: var(--navy); line-height: 1.6;
+}
+.p-faq__toggle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--warm-bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.3s;
+  font-size: 16px; color: var(--navy); font-weight: 700;
+}
+.p-faq__item.open .p-faq__toggle { transform: rotate(45deg); background: var(--pink); color: var(--white); }
+.p-faq__a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.38s cubic-bezier(0.22,1,0.36,1);
+}
+.p-faq__a-inner {
+  padding: 4px 32px 28px 76px;
+  font-size: 14px; line-height: 1.9;
+  color: var(--text-body);
+}
+
+/* ============================================================
+   ACCESS (10)
+   ============================================================ */
+.p-access {
+  background: var(--white);
+  padding: 120px 0;
+}
+.p-access__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.p-access__info {}
+.p-access__name {
+  font-size: 24px; font-weight: 900;
+  color: var(--navy); margin-bottom: 6px;
+}
+.p-access__corp {
+  font-size: 13px; color: var(--text-muted);
+  margin-bottom: 32px;
+}
+.p-access__table {
+  display: flex; flex-direction: column; gap: 16px;
+  margin-bottom: 36px;
+}
+.p-access__row {
+  display: flex; gap: 20px;
+  font-size: 14px; line-height: 1.7;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.p-access__row:last-child { border-bottom: none; padding-bottom: 0; }
+.p-access__row-label {
+  font-weight: 700; color: var(--navy);
+  flex-shrink: 0; min-width: 80px;
+}
+.p-access__row-value { color: var(--text-body); }
+.p-access__phone {
+  font-family: 'Manrope', sans-serif;
+  font-size: 32px; font-weight: 900;
+  color: var(--navy); letter-spacing: 0.02em;
+}
+.p-access__photo {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+  aspect-ratio: 16/10;
+}
+.p-access__photo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.p-access__map {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  height: 280px;
+}
+.p-access__map iframe {
+  width: 100%; height: 100%; border: none; display: block;
+}
+
+/* ============================================================
+   FINAL CTA + FOOTER (11)
+   ============================================================ */
+.p-footer-cta {
+  background: var(--navy);
+  padding: 112px 0 80px;
+}
+.p-footer-cta__inner { text-align: center; }
+.p-footer-cta__heading {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+.p-footer-cta__sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 44px;
+  line-height: 1.8;
+}
+.p-footer-cta__btns {
+  display: flex; justify-content: center; gap: 16px;
+  flex-wrap: wrap; margin-bottom: 80px;
+}
+.p-footer-cta__disclaimer {
+  font-size: 11px; color: rgba(255,255,255,0.30);
+  line-height: 1.8; margin-bottom: 48px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding-top: 32px;
+}
+.p-footer-cta__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px; color: rgba(255,255,255,0.35);
+  border-top: 1px solid rgba(255,255,255,0.10);
+  padding-top: 24px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .p-hero__right { flex: 0 0 380px; padding: 64px 40px 64px 0; }
+  .p-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .p-stats__item::after { display: none; }
+  .p-asset__inner { grid-template-columns: 1fr; gap: 48px; }
+  .p-trust__inner { grid-template-columns: 1fr; gap: 56px; }
+  .p-trust__gallery { grid-template-columns: repeat(2, 1fr); }
+  .p-ba__cases { grid-template-columns: 1fr; }
+  .p-target__inner { grid-template-columns: 1fr; }
+  .p-target__image { aspect-ratio: 16/9; }
+  .p-flow__steps { grid-template-columns: 1fr; gap: 24px; }
+  .p-flow__steps::before { display: none; }
+  .p-flow__step { display: flex; align-items: flex-start; gap: 20px; text-align: left; }
+  .p-flow__step-num { margin: 0; flex-shrink: 0; }
+  .p-access__inner { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .site-header { padding: 0 20px; height: 60px; }
+  .site-nav a:not(.nav-cta):not(:last-child) { display: none; }
+  .logo-sub { display: none; }
+
+  .p-hero {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .p-hero__left {
+    order: 2;
+    padding: 36px 24px 48px;
+  }
+  .p-hero__right {
+    order: 1;
+    flex: none;
+    width: 100%;
+    padding: 24px 24px 0;
+  }
+  .p-hero__video-wrap {
+    aspect-ratio: 16/9;
+    max-height: none;
+    border-radius: 16px;
+  }
+  .p-hero__stats { flex-wrap: wrap; gap: 16px; }
+  .p-hero__stat { border-right: none !important; margin-right: 0 !important; padding-right: 0 !important; width: 50%; }
+
+  .p-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .p-stats__item { padding: 0 20px; }
+
+  .p-voice__grid { grid-template-columns: 1fr; }
+
+  .p-faq__q { padding: 20px 20px; }
+  .p-faq__a-inner { padding: 4px 20px 20px 64px; }
+
+  .p-trust__gallery { grid-template-columns: 1fr; }
+  .p-trust__awards { flex-direction: column; }
+  .p-trust__awards-photo { width: 100%; height: 200px; }
+
+  .p-footer-cta__foot { flex-direction: column; gap: 12px; text-align: center; }
+
+  .l-container { padding: 0 24px; }
+  .p-hero { padding-top: 60px; }
+}
+
+/* Animate counter */
+@keyframes numPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.num-pop { animation: numPop 0.25s ease-out; }
   </style>
 </head>
 <body>
 
-<div class="comp-badge">🎨 デザインカンプ v6 — ファーストビュー / Pattern B（--s スケール管理）</div>
-
-<!-- HEADER -->
-<header class="site-header">
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" id="site-header">
   <a href="#" class="logo">
     <div class="logo-icon">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
         <path d="M3 11L12 3L21 11V21H15V15H9V21H3V11Z"
-              stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+              stroke="white" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
       </svg>
     </div>
-    <span class="logo-text">ほけん家族</span>
+    <div>
+      <div class="logo-text">ほけん家族</div>
+      <div class="logo-sub">株式会社アクトワン</div>
+    </div>
   </a>
   <nav class="site-nav">
-    <a href="#">保険の見直し</a>
-    <a href="#">ご相談の流れ</a>
-    <a href="#">よくある質問</a>
-    <a href="#" class="nav-cta">無料相談</a>
+    <a href="#trust">選ばれる理由</a>
+    <a href="#flow">ご相談の流れ</a>
+    <a href="#faq">よくある質問</a>
+    <a href="#access">アクセス</a>
+    <a href="#line-cta" class="c-btn c-btn--pink c-btn--sm nav-cta">
+      <span>無料で3分チェック</span>
+    </a>
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="hero">
 
-  <!-- LEFT -->
-  <div class="hero-left">
+<!-- ============================================================
+     01. HERO (FV)
+     ============================================================ -->
+<section class="p-hero" id="hero">
 
-    <div class="eyebrow">
-      <div class="eyebrow-bar"></div>
-      <span class="eyebrow-text">保険と家計の相談窓口</span>
+  <div class="p-hero__left">
+    <div class="p-hero__eyebrow">
+      <div class="p-hero__eyebrow-bar"></div>
+      <span class="p-hero__eyebrow-text">保険と家計の相談窓口</span>
     </div>
 
-    <h1 class="hero-h1">
+    <h1 class="p-hero__h1">
       その保険、<br>
-      毎月ムダを<br>
-      払っているかも。
+      プロが本気で<br>
+      安くします。
     </h1>
 
-    <p class="hero-sub">LINEで3分送るだけで、削れる金額がわかります。</p>
+    <p class="p-hero__sub">
+      <strong>同じ保障額で、ここまで下がる。</strong><br>
+      32歳男性・死亡＋医療＋がん＋三大疾病の保障<br>
+      月22,876円 → <strong style="color:var(--pink)">月10,394円</strong> に。
+    </p>
 
-    <div class="cta-block">
-      <div class="micro-copy">
-        <div class="micro-dot"></div>
-        たった3つの質問。約3分で完了
-      </div>
-      <button class="cta-btn">
-        <div class="line-pill">
-          <!-- LINE icon -->
-          <svg width="16" height="16" viewBox="0 0 36 36" fill="white">
-            <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07
-                     L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07
-                     c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12
-                     C33 8.94 26.28 3 18 3z
-                     m-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6z
-                     m2.6 0h-1.6v-7.6h1.6v7.6z
-                     m7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6z
-                     m4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
+    <div class="p-hero__cta-wrap">
+      <div class="p-hero__cta-note">たった3つの質問。約3分で完了。完全無料。</div>
+      <a href="#line-cta" class="c-btn c-btn--pink c-btn--lg" id="hero-cta">
+        <div class="line-icon">
+          <svg width="18" height="18" viewBox="0 0 36 36" fill="white">
+            <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12C33 8.94 26.28 3 18 3zm-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6zm2.6 0h-1.6v-7.6h1.6v7.6zm7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6zm4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
           </svg>
         </div>
-        無料で、3分チェックする &thinsp;→
-      </button>
+        無料で自分のほけんを3分でチェックする &thinsp;→
+      </a>
+      <a href="#ba" class="c-btn c-btn--outline c-btn--md" style="color:var(--navy);border-color:var(--divider);background:transparent;">
+        ビフォー・アフターの例を見る
+      </a>
     </div>
 
-    <!-- Trust stats -->
-    <div class="trust-stats" id="trustStats">
-
-      <div class="stat-col">
-        <div class="stat-number">
-          <span class="count-num" data-target="75">0</span><span class="unit">年</span>
+    <div class="p-hero__stats" id="hero-stats">
+      <div class="p-hero__stat">
+        <div class="p-hero__stat-num">
+          <span class="count-num" data-target="75">0</span>
+          <span class="p-hero__stat-unit">年</span>
         </div>
-        <div class="stat-lbl-main">創業年数</div>
-        <div class="stat-lbl-sub">地域に根ざした実績と信頼</div>
+        <div class="p-hero__stat-label">創業年数</div>
+        <div class="p-hero__stat-note">地域に根ざした実績と信頼</div>
       </div>
-
-      <div class="stat-col">
-        <div class="stat-number">
-          <span class="count-num" data-target="10000" data-format="comma">0</span><span class="unit">件以上</span>
+      <div class="p-hero__stat">
+        <div class="p-hero__stat-num">
+          <span class="count-num" data-target="10000" data-format="comma">0</span>
+          <span class="p-hero__stat-unit">件以上</span>
         </div>
-        <div class="stat-lbl-main">累計相談件数</div>
-        <div class="stat-lbl-sub">幅広い年代・状況をサポート</div>
+        <div class="p-hero__stat-label">累計相談件数</div>
+        <div class="p-hero__stat-note">幅広い年代・状況をサポート</div>
       </div>
-
-      <div class="stat-col">
-        <div class="stat-number">
-          <span class="count-text" data-text="No.1" style="font-size:clamp(36px,3.8vw,48px);">—</span>
+      <div class="p-hero__stat">
+        <div class="p-hero__stat-num">
+          <span class="count-text" data-text="No.1" style="font-family:'Manrope',sans-serif;font-size:clamp(32px,3.5vw,50px);">—</span>
         </div>
-        <div class="stat-lbl-main">千葉県相談実績</div>
-        <div class="stat-lbl-sub">7年連続・地元で最も選ばれる<small style="font-size:9px;">※</small></div>
+        <div class="p-hero__stat-label">千葉県相談実績</div>
+        <div class="p-hero__stat-note">7年連続・地元で最も選ばれる<sup style="font-size:9px">※</sup></div>
       </div>
-
     </div>
-  </div><!-- /hero-left -->
+  </div>
 
-  <!-- RIGHT: Two-video collage -->
-  <div class="hero-right">
-    <div class="video-collage">
-
-      <!-- VIDEO 1: メイン（大・店舗外観〜相談） -->
-      <div class="vid-main">
-        <video class="v-video" src="./hero-video.mp4"
-               autoplay muted loop playsinline></video>
-        <div class="vid-caption">
-          <span class="v-pill">📍 千葉県茂原市</span>
-          <span class="v-pill">対面 · 完全無料</span>
-        </div>
+  <div class="p-hero__right">
+    <div class="p-hero__video-wrap">
+      <video id="hero-video" autoplay muted playsinline>
+        <source src="./hero-video.mp4" type="video/mp4">
+      </video>
+      <div class="p-hero__video-badge">
+        <span class="v-badge">📍 千葉県茂原市</span>
+        <span class="v-badge">対面相談・完全無料</span>
       </div>
-
-      <!-- VIDEO 2: サブ（小・お客様アップ〜店舗雰囲気） -->
-      <div class="vid-sub">
-        <video class="v-video" src="./hero-video-2.mp4"
-               autoplay muted loop playsinline></video>
-      </div>
-
     </div>
-  </div><!-- /hero-right -->
-
+  </div>
 
 </section>
 
-<!-- PREVIEW STRIP -->
-<div class="preview-strip">
-  <span class="preview-note">以降のセクション構成（ワイヤー準拠）：</span>
-  <span class="preview-pill">こんなお悩み</span>
-  <span class="preview-pill">問題提起</span>
-  <span class="preview-pill">3STEPチェック</span>
-  <span class="preview-pill">利用の流れ</span>
-  <span class="preview-pill">お客様の声</span>
-  <span class="preview-pill">選ばれる理由</span>
-  <span class="preview-pill">CTA</span>
-  <span class="preview-pill">Footer</span>
-</div>
 
-<!-- JS: play + count-up -->
+<!-- ============================================================
+     STATS BAR — 数字で知るほけん家族
+     ============================================================ -->
+<section class="p-stats" id="stats">
+  <div class="l-container">
+    <div class="p-stats__inner">
+      <div class="p-stats__item fade-up">
+        <div class="p-stats__num">
+          <span class="count-num" data-target="75">0</span><span class="unit">年</span>
+        </div>
+        <div class="p-stats__label">創業年数</div>
+        <div class="p-stats__note">1950年創業</div>
+      </div>
+      <div class="p-stats__item fade-up d1">
+        <div class="p-stats__num">
+          <span class="count-num" data-target="10000" data-format="comma">0</span><span class="unit">件+</span>
+        </div>
+        <div class="p-stats__label">累計相談件数</div>
+        <div class="p-stats__note">地域最大規模の相談実績</div>
+      </div>
+      <div class="p-stats__item fade-up d2">
+        <div class="p-stats__num">
+          <span class="count-text pink" data-text="No.1">—</span>
+        </div>
+        <div class="p-stats__label">千葉県相談実績</div>
+        <div class="p-stats__note">A生命・個人募集人部門</div>
+      </div>
+      <div class="p-stats__item fade-up d3">
+        <div class="p-stats__num">
+          <span class="count-text pink" data-text="No.1">—</span>
+        </div>
+        <div class="p-stats__label">全国販売実績</div>
+        <div class="p-stats__note">N生命・商品別販売部門</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     02. ASSET COMPARISON
+     ============================================================ -->
+<section class="p-asset" id="asset">
+  <div class="l-container">
+    <div class="p-asset__inner">
+      <div class="p-asset__text fade-up">
+        <div class="section__kicker section__kicker--white">資産形成</div>
+        <h2 class="section__title section__title--white">
+          あなたの資産、<br>
+          プロが本気で<br>
+          増やします。
+        </h2>
+        <p class="section__lead section__lead--white">
+          月々同じ保険料で、将来受け取れる金額が<br>
+          ここまで増える可能性があります。
+        </p>
+      </div>
+      <div class="p-asset__compare fade-up d1">
+        <div class="p-asset__compare-row">
+          <div class="p-asset__card">
+            <div class="p-asset__card-label">BEFORE — 見直し前</div>
+            <div class="p-asset__card-amount num">約160万円</div>
+          </div>
+          <div class="p-asset__arrow">→</div>
+          <div class="p-asset__card p-asset__card--after">
+            <div class="p-asset__card-label">AFTER — 見直し後</div>
+            <div class="p-asset__card-amount num">約2,200万円</div>
+          </div>
+        </div>
+        <div class="p-asset__note">
+          ※将来の成果を保障するものではありません。<br>
+          ※上記は特定のお客様のシミュレーション例であり、個人の状況により異なります。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     03. TRUST / STORY
+     ============================================================ -->
+<section class="p-trust" id="trust">
+  <div class="l-container">
+    <div class="p-trust__inner">
+
+      <!-- Left: Features -->
+      <div>
+        <div class="fade-up">
+          <div class="section__kicker">茂原で創業75年</div>
+          <h2 class="section__title">
+            生命保険の無駄をなくして<br>
+            お客様の資産を増やす！<br>
+            <span style="font-size:0.72em;color:var(--text-body);">保険見直しのプロだから。</span>
+          </h2>
+        </div>
+        <div class="p-trust__features">
+          <div class="p-trust__feature fade-up d1">
+            <span class="p-trust__feature-num">01</span>
+            <div>
+              <div class="p-trust__feature-title">創業75年の実績</div>
+              <div class="p-trust__feature-body">地域に根ざして75年。長年にわたり、ご家族の保険と資産形成をサポートし続けてきた確かな実績があります。</div>
+            </div>
+          </div>
+          <div class="p-trust__feature fade-up d2">
+            <span class="p-trust__feature-num">02</span>
+            <div>
+              <div class="p-trust__feature-title">顧客数10,000件以上</div>
+              <div class="p-trust__feature-body">千葉県内で最も多く選ばれている保険相談窓口です。幅広い年代・状況のお客様をサポートしてきた経験が強みです。</div>
+            </div>
+          </div>
+          <div class="p-trust__feature fade-up d3">
+            <span class="p-trust__feature-num">03</span>
+            <div>
+              <div class="p-trust__feature-title">千葉県 No.1</div>
+              <div class="p-trust__feature-body">A生命・個人募集人部門で千葉県No.1を受賞。地域のプロとして高い評価をいただいています。</div>
+            </div>
+          </div>
+          <div class="p-trust__feature fade-up d4">
+            <span class="p-trust__feature-num">04</span>
+            <div>
+              <div class="p-trust__feature-title">全国 No.1</div>
+              <div class="p-trust__feature-body">N生命・商品別販売部門で全国No.1を達成。地域の保険相談窓口でありながら、全国水準の実力を誇ります。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Story -->
+      <div class="p-trust__story fade-up d1">
+        <div class="p-trust__president">
+          <div class="p-trust__president-photo">
+            <img src="./images/president.jpg" alt="代表者" loading="lazy">
+          </div>
+          <div class="p-trust__president-info">
+            <div class="p-trust__president-name">ほけん家族</div>
+            <div class="p-trust__president-title">
+              株式会社アクトワン<br>
+              千葉県茂原市北塚947-1
+            </div>
+          </div>
+        </div>
+
+        <div class="p-trust__story-highlight">
+          「目の前のお客様が、自分の家族だったら」
+        </div>
+
+        <div class="p-trust__story-text">初めまして。
+わたしたちは【ほけん家族】です。
+75年前、現社長の祖母が30代で夫を亡くし、幼い子どもを3人抱えて、生きていくために始めたのが生命保険業でした。
+
+2002年には、千葉県初の来店型店舗「アフラックサービスショップ」を茂原駅近くにオープン。（現在は北塚に移転）
+
+「保険屋が儲かる商品」を売るのではなく、「自分の家族に伝えたい、無駄のない保険の入り方」を伝える。それが、わたしたちの信念です。
+
+必要な保障はきちんと持って、無駄な部分は極力減らし、そのお金をなるべく貯蓄や投資に回すこと。現金を持っていることが、一番の保険ですから。</div>
+      </div>
+
+    </div>
+
+    <!-- Gallery -->
+    <div class="p-trust__gallery">
+      <div class="p-trust__gallery-item fade-up">
+        <img src="./images/interior-bright.jpg" alt="店内の様子" loading="lazy">
+      </div>
+      <div class="p-trust__gallery-item fade-up d1">
+        <img src="./images/interior-sofa.jpg" alt="ゆったりとした相談スペース" loading="lazy">
+      </div>
+      <div class="p-trust__gallery-item fade-up d2">
+        <img src="./images/kids-corner.jpg" alt="キッズコーナー完備" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Awards -->
+    <div class="p-trust__awards fade-up" style="margin-top:32px;">
+      <div class="p-trust__awards-photo">
+        <img src="./images/awards.jpg" alt="受賞トロフィー" loading="lazy">
+      </div>
+      <div class="p-trust__awards-text">
+        <div class="p-trust__awards-title">数々の受賞歴が<br>証明する実力</div>
+        <div class="p-trust__awards-body">千葉県No.1・全国No.1など、複数の保険会社から表彰を受けています。数字で示せる実績があるからこそ、安心してお任せいただけます。<br><br><span style="font-size:11px;color:rgba(255,255,255,0.35);">※各受賞は対象期間・対象部門における実績に基づきます。</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     04. BEFORE / AFTER
+     ============================================================ -->
+<section class="p-ba" id="ba">
+  <div class="l-container">
+    <div class="p-ba__head fade-up">
+      <div class="section__kicker" style="justify-content:center;">BeforeAfter</div>
+      <h2 class="section__title">ビフォー・アフター</h2>
+      <p class="section__lead" style="margin-bottom:0">見直しで、保険料と資産がここまで変わります。</p>
+    </div>
+
+    <div class="p-ba__cases">
+
+      <!-- Case 1 -->
+      <div class="c-card p-ba__case fade-up d1" style="padding:0;background:var(--warm-bg);">
+        <div class="p-ba__case-tag">ケース1 ｜ 保険料の見直し（32歳男性）</div>
+        <div class="p-ba__case-body">
+          <div class="p-ba__compare">
+            <div class="p-ba__amount-block">
+              <div class="p-ba__label p-ba__label--before">BEFORE</div>
+              <div class="p-ba__amount p-ba__amount--before">22,876円<span style="font-size:0.5em;font-family:'Noto Sans JP';font-weight:700">/月</span></div>
+            </div>
+            <div class="p-ba__arrow-icon">→</div>
+            <div class="p-ba__amount-block">
+              <div class="p-ba__label p-ba__label--after">AFTER</div>
+              <div class="p-ba__amount p-ba__amount--after">10,394円<span style="font-size:0.44em;font-family:'Noto Sans JP';font-weight:700;color:var(--pink)">/月</span></div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.7">
+            死亡保障・医療保険・がん保険・三大疾病保険の<br>同等保障を維持した上での見直し結果
+          </div>
+          <div class="p-ba__point">
+            <div class="p-ba__point-title">安くなる！見直しのポイント</div>
+            <div class="p-ba__point-body">①保険会社を見直す<br>②保障の期間や払込方法を、家族構成や状況に合わせて最適化する</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case 2 -->
+      <div class="c-card p-ba__case fade-up d2" style="padding:0;background:var(--warm-bg);">
+        <div class="p-ba__case-tag">ケース2 ｜ 資産形成の見直し</div>
+        <div class="p-ba__case-body">
+          <div class="p-ba__compare">
+            <div class="p-ba__amount-block">
+              <div class="p-ba__label p-ba__label--before">BEFORE</div>
+              <div class="p-ba__amount p-ba__amount--before" style="font-size:clamp(22px,2.5vw,32px);">約160万円</div>
+            </div>
+            <div class="p-ba__arrow-icon">→</div>
+            <div class="p-ba__amount-block">
+              <div class="p-ba__label p-ba__label--after">AFTER</div>
+              <div class="p-ba__amount p-ba__amount--after" style="font-size:clamp(28px,3.2vw,44px);">約2,200万円</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.7">
+            月々同じ保険料で、将来受け取れる資産額の比較<br>
+            ※将来の成果を保障するものではありません
+          </div>
+          <div class="p-ba__point">
+            <div class="p-ba__point-title">資産を増やす！見直しのポイント</div>
+            <div class="p-ba__point-body">①無駄な掛け捨てを減らし、必要最低限の保障を持つ<br>②固定利率／変動利率などリスク許容度に合わせてお金の増やし方を選ぶ</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p class="p-ba__note">※上記はお客様の実例をベースにした参考例です。個人の状況により結果は異なります。</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     05. MID CTA
+     ============================================================ -->
+<section class="p-mid-cta" id="mid-cta">
+  <div class="l-container">
+    <div class="p-mid-cta__inner fade-up">
+      <div class="p-mid-cta__tags">
+        <span class="p-mid-cta__tag">保険を見直し中の方</span>
+        <span class="p-mid-cta__tag">更新や転換の提案をされている方</span>
+      </div>
+      <h2 class="p-mid-cta__heading">
+        是非、セカンドオピニオンとして<br>ほけん家族をご利用ください！
+      </h2>
+      <p class="p-mid-cta__sub">
+        もっとあなたの希望を叶える自信があります。
+      </p>
+      <div class="p-mid-cta__btns">
+        <a href="#line-cta" class="c-btn c-btn--pink c-btn--lg">
+          <div class="line-icon">
+            <svg width="18" height="18" viewBox="0 0 36 36" fill="white">
+              <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12C33 8.94 26.28 3 18 3zm-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6zm2.6 0h-1.6v-7.6h1.6v7.6zm7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6zm4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
+            </svg>
+          </div>
+          無料で自分のほけんを3分でチェックする →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     06. CUSTOMER VOICES
+     ============================================================ -->
+<section class="p-voice" id="voice">
+  <div class="l-container">
+    <div class="p-voice__head fade-up">
+      <div class="section__kicker" style="justify-content:center;">お客様の声</div>
+      <h2 class="section__title">実際にお客様から<br>頂いた感謝状や感想です</h2>
+    </div>
+
+    <div class="p-voice__grid">
+      <div class="c-card fade-up">
+        <div class="c-card__quote">"</div>
+        <div class="c-card__text">月々の保険料が5,000円から2,000円に。年間36,000円も浮いて、子どもの習い事に回せました。同じ保障でこんなに変わるなんて、相談して本当によかったです。</div>
+        <div class="c-card__author">30代・女性・お子さま2人</div>
+      </div>
+      <div class="c-card fade-up d1">
+        <div class="c-card__quote">"</div>
+        <div class="c-card__text">同じ月1万円の支払いなのに、貯蓄額が300万から1,000万円に変わるプランがあると知って驚きました。もっと早く来ればよかったと思っています。</div>
+        <div class="c-card__author">40代・男性・会社員</div>
+      </div>
+      <div class="c-card fade-up d2">
+        <div class="c-card__quote">"</div>
+        <div class="c-card__text">LINEだけで始められたのがよかった。数字で損得をはっきり説明してもらえて、納得して判断できました。押しつけがなく、安心して相談できます。</div>
+        <div class="c-card__author">30代・男性・会社員</div>
+      </div>
+      <div class="c-card fade-up d3">
+        <div class="c-card__quote">"</div>
+        <div class="c-card__text">結果的に今の保険のままでいいと言われました。売り込みがなくて信頼できると思い、老後の資産運用も相談しました。家族全員お世話になっています。</div>
+        <div class="c-card__author">50代・女性・ご夫婦</div>
+      </div>
+    </div>
+    <p class="p-voice__note">※個人の感想であり、効果を保証するものではありません。※金額・貯蓄額はお客様の状況により異なります。</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     07. TARGET USERS
+     ============================================================ -->
+<section class="p-target" id="target">
+  <div class="l-container">
+    <div class="p-target__inner">
+
+      <div class="p-target__image fade-up">
+        <img src="./images/interior-room.jpg" alt="ゆったりとした相談室" loading="lazy">
+      </div>
+
+      <div>
+        <div class="fade-up">
+          <div class="section__kicker">特徴</div>
+          <h2 class="section__title">特に、こんな方の<br>お役に立てます</h2>
+        </div>
+        <div class="p-target__list">
+          <div class="p-target__item fade-up d1">
+            <div class="p-target__item-check">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="p-target__item-text">漢字の名前の保険会社に加入している</div>
+          </div>
+          <div class="p-target__item fade-up d2">
+            <div class="p-target__item-check">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="p-target__item-text">更新型の保険に加入している</div>
+          </div>
+          <div class="p-target__item fade-up d3">
+            <div class="p-target__item-check">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="p-target__item-text">友人・知人や職場に勧誘に来る保険屋さんで加入している</div>
+          </div>
+          <div class="p-target__item fade-up d4">
+            <div class="p-target__item-check">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="p-target__item-text">月2万円以上の保険料を払っている</div>
+          </div>
+          <div class="p-target__item fade-up d5">
+            <div class="p-target__item-check">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="p-target__item-text">無駄な掛け捨てを減らして、なるべく貯蓄したい</div>
+          </div>
+          <div class="p-target__item fade-up" style="transition-delay:0.48s">
+            <div class="p-target__item-check">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="p-target__item-text">保険はよくわからないから、信頼できる担当者に任せたい</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     08. FLOW
+     ============================================================ -->
+<section class="p-flow" id="flow">
+  <div class="l-container">
+    <div class="p-flow__head fade-up">
+      <div class="section__kicker section__kicker--white" style="justify-content:center;">ご相談の流れ</div>
+      <h2 class="section__title section__title--white">無料で始められます<br>LINEで所要時間は約3分</h2>
+    </div>
+
+    <div class="p-flow__steps">
+      <div class="p-flow__step fade-up">
+        <div class="p-flow__step-num">01</div>
+        <div>
+          <div class="p-flow__step-title">LINEで<br>友だち追加</div>
+          <div class="p-flow__step-note">まずはLINEで<br>無料登録</div>
+        </div>
+      </div>
+      <div class="p-flow__step fade-up d1">
+        <div class="p-flow__step-num">02</div>
+        <div>
+          <div class="p-flow__step-title">3分<br>セルフチェック</div>
+          <div class="p-flow__step-note">ご自身でできる<br>簡易診断</div>
+        </div>
+      </div>
+      <div class="p-flow__step fade-up d2">
+        <div class="p-flow__step-num">03</div>
+        <div>
+          <div class="p-flow__step-title">結果確認後<br>電話予約（任意）</div>
+          <div class="p-flow__step-note">より詳しく<br>知りたい方のみ</div>
+        </div>
+      </div>
+      <div class="p-flow__step fade-up d3">
+        <div class="p-flow__step-num">04</div>
+        <div>
+          <div class="p-flow__step-title">保険証券を持って<br>来店</div>
+          <div class="p-flow__step-note">診断に約1週間<br>お時間をいただきます</div>
+        </div>
+      </div>
+      <div class="p-flow__step fade-up d4">
+        <div class="p-flow__step-num">05</div>
+        <div>
+          <div class="p-flow__step-title">診断結果を<br>お聞きする</div>
+          <div class="p-flow__step-note">ここまで<br>すべて無料です</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-flow__cta fade-up">
+      <a href="#line-cta" class="c-btn c-btn--pink c-btn--lg">
+        <div class="line-icon">
+          <svg width="18" height="18" viewBox="0 0 36 36" fill="white">
+            <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12C33 8.94 26.28 3 18 3zm-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6zm2.6 0h-1.6v-7.6h1.6v7.6zm7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6zm4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
+          </svg>
+        </div>
+        無料で自分のほけんを3分でチェックする →
+      </a>
+      <div class="p-flow__cta-note" style="margin-top:16px;">セルフチェックだけでもOKです。来店を強制することはありません。</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     09. FAQ
+     ============================================================ -->
+<section class="p-faq" id="faq">
+  <div class="l-container">
+    <div class="p-faq__head fade-up">
+      <div class="section__kicker" style="justify-content:center;">Q&amp;A</div>
+      <h2 class="section__title">よくあるご質問</h2>
+    </div>
+
+    <div class="p-faq__list fade-up d1">
+
+      <div class="p-faq__item">
+        <button class="p-faq__q" aria-expanded="false">
+          <span class="p-faq__q-mark">Q</span>
+          <span class="p-faq__q-text">相談は本当に無料ですか？</span>
+          <span class="p-faq__toggle">＋</span>
+        </button>
+        <div class="p-faq__a">
+          <div class="p-faq__a-inner">はい、完全無料です。相談・診断・提案まですべて無料で承っております。費用が発生するのは、お客様が保険に加入された場合のみです。</div>
+        </div>
+      </div>
+
+      <div class="p-faq__item">
+        <button class="p-faq__q" aria-expanded="false">
+          <span class="p-faq__q-mark">Q</span>
+          <span class="p-faq__q-text">セールスや勧誘はされませんか？</span>
+          <span class="p-faq__toggle">＋</span>
+        </button>
+        <div class="p-faq__a">
+          <div class="p-faq__a-inner">売り込みは一切ありません。むしろ「今の保険のままで大丈夫です」とお伝えするケースも多くあります。私たちの目的はお客様の資産を守り増やすことであり、不必要な保険の提案はしません。</div>
+        </div>
+      </div>
+
+      <div class="p-faq__item">
+        <button class="p-faq__q" aria-expanded="false">
+          <span class="p-faq__q-mark">Q</span>
+          <span class="p-faq__q-text">LINE登録したら毎日メッセージが来ませんか？</span>
+          <span class="p-faq__toggle">＋</span>
+        </button>
+        <div class="p-faq__a">
+          <div class="p-faq__a-inner">不必要な配信は行いません。セルフチェック後に必要な情報をお届けする程度です。しつこい連絡が来る心配はありませんので、安心してご登録ください。</div>
+        </div>
+      </div>
+
+      <div class="p-faq__item">
+        <button class="p-faq__q" aria-expanded="false">
+          <span class="p-faq__q-mark">Q</span>
+          <span class="p-faq__q-text">今の保険を解約しなければいけませんか？</span>
+          <span class="p-faq__toggle">＋</span>
+        </button>
+        <div class="p-faq__a">
+          <div class="p-faq__a-inner">いいえ。診断結果をご説明した上で、お客様自身が判断される形です。「今のままがベスト」という結論になるケースも多くあります。加入・解約の強制は一切ありません。</div>
+        </div>
+      </div>
+
+      <div class="p-faq__item">
+        <button class="p-faq__q" aria-expanded="false">
+          <span class="p-faq__q-mark">Q</span>
+          <span class="p-faq__q-text">来店は必須ですか？小さな子どもがいても大丈夫ですか？</span>
+          <span class="p-faq__toggle">＋</span>
+        </button>
+        <div class="p-faq__a">
+          <div class="p-faq__a-inner">まずLINEでセルフチェックを受けていただき、その後ご希望の方だけご来店いただく流れです。店舗にはキッズコーナーも完備しておりますので、お子さま連れでも安心してお越しください。</div>
+        </div>
+      </div>
+
+      <div class="p-faq__item">
+        <button class="p-faq__q" aria-expanded="false">
+          <span class="p-faq__q-mark">Q</span>
+          <span class="p-faq__q-text">どのような保険会社を取り扱っていますか？</span>
+          <span class="p-faq__toggle">＋</span>
+        </button>
+        <div class="p-faq__a">
+          <div class="p-faq__a-inner">国内外30社以上の保険会社から、お客様の状況に合った最適なプランをご提案しています。特定の保険会社に偏ることなく、中立的な立場でご提案します。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     10. ACCESS
+     ============================================================ -->
+<section class="p-access" id="access">
+  <div class="l-container">
+    <div class="p-access__inner">
+
+      <div class="p-access__info fade-up">
+        <div class="section__kicker">アクセス</div>
+        <h2 class="section__title" style="font-size:clamp(28px,3vw,40px);margin-bottom:8px;">ほけん家族</h2>
+        <div class="p-access__corp">株式会社アクトワン</div>
+
+        <div class="p-access__table">
+          <div class="p-access__row">
+            <span class="p-access__row-label">住所</span>
+            <span class="p-access__row-value">〒297-0009<br>千葉県茂原市北塚947-1<br><span style="font-size:12px;color:var(--text-muted)">ベイシア・カインズと同じ通り沿い</span></span>
+          </div>
+          <div class="p-access__row">
+            <span class="p-access__row-label">営業時間</span>
+            <span class="p-access__row-value">9:00〜17:00<br><span style="font-size:12px;color:var(--text-muted)">定休日：火曜日</span></span>
+          </div>
+          <div class="p-access__row">
+            <span class="p-access__row-label">駐車場</span>
+            <span class="p-access__row-value">5台完備（無料）</span>
+          </div>
+          <div class="p-access__row">
+            <span class="p-access__row-label">電話</span>
+            <span class="p-access__row-value">
+              <div class="p-access__phone">0120-037-042</div>
+              <div style="font-size:11.5px;color:var(--text-muted);margin-top:4px">通話料無料・受付時間 9:00〜17:00</div>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up d1">
+        <div class="p-access__photo">
+          <img src="./images/exterior-1.jpg" alt="ほけん家族 店舗外観" loading="lazy">
+        </div>
+        <div class="p-access__map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3249.1529877482655!2d140.28577387648836!3d35.42167337263185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60228f3b7e3c5a4d%3A0x4f00f0a0d0f0e0b0!2z44G5466f5aCA5peP77yI5qCq5byP5Lya56S277yJ!5e0!3m2!1sja!2sjp!4v1714000000000!5m2!1sja!2sjp&q=千葉県茂原市北塚947-1"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="ほけん家族 地図">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     11. FINAL CTA + FOOTER
+     ============================================================ -->
+<section class="p-footer-cta" id="line-cta">
+  <div class="l-container">
+    <div class="p-footer-cta__inner fade-up">
+      <div class="section__kicker section__kicker--white" style="justify-content:center;">無料相談</div>
+      <h2 class="p-footer-cta__heading">
+        保険料、下げられるかもしれません。
+      </h2>
+      <p class="p-footer-cta__sub">
+        LINEで3分、まずは気軽にチェックしてみませんか？<br>
+        売り込みなし。結果を見てから、決めてください。
+      </p>
+      <div class="p-footer-cta__btns">
+        <a href="#" class="c-btn c-btn--pink c-btn--lg">
+          <div class="line-icon">
+            <svg width="18" height="18" viewBox="0 0 36 36" fill="white">
+              <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12C33 8.94 26.28 3 18 3zm-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6zm2.6 0h-1.6v-7.6h1.6v7.6zm7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6zm4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
+            </svg>
+          </div>
+          LINEで無料3分チェックをする →
+        </a>
+        <a href="tel:0120037042" class="c-btn c-btn--outline c-btn--lg">
+          📞 0120-037-042
+        </a>
+      </div>
+
+      <div class="p-footer-cta__disclaimer">
+        ※「必ず下がります」「絶対お得」などの表現は使用していません。保険料・資産額の変化は、お客様個人の保険内容・年齢・健康状態・目的等によって異なります。<br>
+        ※「No.1」「販売件数」などの実績は、特定の保険会社・対象期間・対象部門における結果です。詳細はスタッフへお問い合わせください。
+      </div>
+
+      <div class="p-footer-cta__foot">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:4px;">ほけん家族（株式会社アクトワン）</div>
+          <div>〒297-0009 千葉県茂原市北塚947-1　TEL: 0120-037-042</div>
+        </div>
+        <div>&copy; 2025 Hoken Kazoku / Act One Co., Ltd. All rights reserved.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     JS
+     ============================================================ -->
 <script>
-  // Play all videos
-  document.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
+/* ── Header scroll shadow ── */
+const hdr = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+  hdr.classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
 
-  // Count-up
-  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+/* ── Hero video playlist (video1 → video2 → loop) ── */
+(function() {
+  const videos = ['./hero-video.mp4', './hero-video-2.mp4'];
+  let idx = 0;
+  const vid = document.getElementById('hero-video');
+  if (!vid) return;
+  vid.src = videos[0];
+  vid.play().catch(() => {});
+  vid.addEventListener('ended', () => {
+    idx = (idx + 1) % videos.length;
+    vid.src = videos[idx];
+    vid.play().catch(() => {});
+  });
+})();
 
-  function countUp(el, target, duration, format) {
-    const t0 = performance.now();
-    (function tick(now) {
-      const p = Math.min((now - t0) / duration, 1);
-      const val = Math.round(easeOutCubic(p) * target);
-      el.textContent = format === 'comma' ? val.toLocaleString('ja-JP') : val;
-      if (p < 1) requestAnimationFrame(tick);
-      else {
+/* ── Easing ── */
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+/* ── Count-up ── */
+function countUp(el, target, duration, format) {
+  const t0 = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - t0) / duration, 1);
+    const val = Math.round(easeOutCubic(p) * target);
+    el.textContent = format === 'comma' ? val.toLocaleString('ja-JP') : val;
+    if (p < 1) requestAnimationFrame(tick);
+    else {
+      el.classList.add('num-pop');
+      setTimeout(() => el.classList.remove('num-pop'), 280);
+    }
+  })(t0);
+}
+
+/* ── Intersection Observer: fade-up + counter ── */
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+/* ── Counter observer ── */
+const counterFired = new WeakSet();
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting || counterFired.has(e.target)) return;
+    counterFired.add(e.target);
+
+    e.target.querySelectorAll('.count-num').forEach((el, i) => {
+      setTimeout(() =>
+        countUp(el, +el.dataset.target, 1600, el.dataset.format),
+        i * 120
+      );
+    });
+
+    e.target.querySelectorAll('.count-text').forEach((el, i) => {
+      setTimeout(() => {
+        el.textContent = el.dataset.text;
         el.classList.add('num-pop');
         setTimeout(() => el.classList.remove('num-pop'), 280);
-      }
-    })(t0);
-  }
+      }, 200 + i * 120);
+    });
+  });
+}, { threshold: 0.25 });
 
-  const stats = document.getElementById('trustStats');
-  let fired = false;
+/* Hero stats + Stats bar */
+const heroStats = document.getElementById('hero-stats');
+const statsSection = document.getElementById('stats');
+if (heroStats) counterObs.observe(heroStats);
+if (statsSection) counterObs.observe(statsSection);
 
-  new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !fired) {
-      fired = true;
-      document.querySelectorAll('.count-num').forEach((el, i) => {
-        setTimeout(() =>
-          countUp(el, +el.dataset.target, 1800, el.dataset.format),
-          i * 100
-        );
-      });
-      document.querySelectorAll('.count-text').forEach((el, i) => {
-        setTimeout(() => {
-          el.textContent = el.dataset.text;
-          el.classList.add('num-pop');
-          setTimeout(() => el.classList.remove('num-pop'), 280);
-        }, 200 + i * 100);
-      });
+/* ── FAQ accordion ── */
+document.querySelectorAll('.p-faq__q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.p-faq__item');
+    const ans  = item.querySelector('.p-faq__a');
+    const isOpen = item.classList.contains('open');
+
+    /* Close all */
+    document.querySelectorAll('.p-faq__item.open').forEach(openItem => {
+      openItem.classList.remove('open');
+      openItem.querySelector('.p-faq__a').style.maxHeight = null;
+      openItem.querySelector('.p-faq__q').setAttribute('aria-expanded', 'false');
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
     }
-  }, { threshold: 0.3 }).observe(stats);
+  });
+});
 </script>
 
 </body>
