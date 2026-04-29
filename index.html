@@ -46,16 +46,16 @@ body {
   overflow-x: hidden;
 }
 
-.num { font-family: 'Manrope', sans-serif; }
+.num { font-family: 'Manrope', 'Noto Sans JP', sans-serif; }
 
 .l-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 80px;
+  padding: 0 40px;
 }
 
-@media (max-width: 1100px) { .l-container { padding: 0 48px; } }
-@media (max-width: 768px)  { .l-container { padding: 0 24px; } }
+@media (max-width: 1100px) { .l-container { padding: 0 28px; } }
+@media (max-width: 768px)  { .l-container { padding: 0 20px; } }
 
 /* ============================================================
    FADE-UP ANIMATION (scroll trigger)
@@ -287,6 +287,7 @@ body {
   animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.32s forwards;
 }
 .p-hero__sub strong {
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   color: var(--navy);
   font-weight: 700;
   font-size: clamp(24px, 3.2vw, 32px);
@@ -341,7 +342,7 @@ body {
   text-align: center;
 }
 .p-hero__video-stat-num {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: clamp(14px, 1.6vw, 20px);
   font-weight: 900;
   color: var(--white);
@@ -447,7 +448,7 @@ body {
   width: 1px; background: rgba(255,255,255,0.15);
 }
 .p-stats__num {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: clamp(48px, 5.5vw, 72px);
   font-weight: 900;
   color: var(--white);
@@ -548,11 +549,27 @@ body {
 }
 .p-asset__card--after .p-asset__card-label { color: rgba(255,14,119,0.90); }
 .p-asset__card-amount {
-  font-family: 'Manrope', sans-serif;
-  font-size: clamp(32px, 3.5vw, 44px);
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-weight: 900;
   color: rgba(255,255,255,0.70);
   line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+.p-asset__card-figure {
+  font-size: clamp(40px, 4.5vw, 60px);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.p-asset__card-affix {
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
 }
 .p-asset__card--after .p-asset__card-amount { color: var(--pink); }
 .p-asset__arrow {
@@ -571,7 +588,7 @@ body {
   border-top: 1px solid rgba(255,255,255,0.12);
 }
 .p-asset__card-sub-price {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: 12px; font-weight: 700;
   color: rgba(255,255,255,0.60);
   margin-bottom: 3px;
@@ -608,7 +625,7 @@ body {
 .p-trust__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 40px;
   align-items: start;
 }
 .p-trust__features {
@@ -631,7 +648,7 @@ body {
   box-shadow: var(--shadow-card);
 }
 .p-trust__feature-num {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: 56px; font-weight: 900;
   color: var(--pink);
   letter-spacing: -0.04em;
@@ -654,7 +671,7 @@ body {
   margin-bottom: 28px;
 }
 .p-trust__president-photo {
-  width: 100px; height: 120px;
+  width: 180px; height: 240px;
   border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
@@ -708,14 +725,14 @@ body {
 
 .p-trust__awards {
   grid-column: 1 / -1;
-  display: flex; align-items: center; gap: 40px;
+  display: flex; align-items: center; gap: 48px;
   background: var(--navy);
   border-radius: var(--radius-card);
-  padding: 40px 48px;
+  padding: 32px 40px;
   margin-top: 16px;
 }
 .p-trust__awards-photo {
-  width: 180px; height: 140px;
+  width: 260px; height: 200px;
   border-radius: 12px;
   overflow: hidden; flex-shrink: 0;
 }
@@ -724,7 +741,7 @@ body {
 }
 .p-trust__awards-text { flex: 1; }
 .p-trust__awards-title {
-  font-size: 22px; font-weight: 900;
+  font-size: 20px; font-weight: 900;
   color: var(--white); margin-bottom: 10px; line-height: 1.4;
 }
 .p-trust__awards-body {
@@ -770,22 +787,41 @@ body {
 .p-ba__label--before { color: var(--text-muted); }
 .p-ba__label--after  { color: var(--pink); }
 .p-ba__amount {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-weight: 900;
   line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  white-space: nowrap;
 }
 .p-ba__amount--before {
-  font-size: clamp(28px, 3vw, 38px);
   color: var(--text-muted);
   text-decoration: line-through;
   text-decoration-color: rgba(138,138,138,0.5);
 }
 .p-ba__amount--after {
-  font-size: clamp(36px, 4vw, 52px);
   color: var(--pink);
 }
+.p-ba__figure {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.p-ba__amount--before .p-ba__figure { font-size: clamp(28px, 3vw, 38px); }
+.p-ba__amount--after  .p-ba__figure { font-size: clamp(36px, 4vw, 52px); }
+.p-ba__affix {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 700;
+}
+.p-ba__amount--before .p-ba__affix { font-size: clamp(14px, 1.4vw, 18px); }
+.p-ba__amount--after  .p-ba__affix { font-size: clamp(16px, 1.7vw, 22px); }
 .p-ba__arrow-icon {
-  font-size: 24px; color: var(--border); flex-shrink: 0;
+  font-size: 32px; font-weight: 900;
+  color: var(--navy-mid);
+  flex-shrink: 0;
+  line-height: 1;
 }
 .p-ba__point {
   background: var(--white);
@@ -883,7 +919,7 @@ body {
   position: relative;
 }
 .c-card__quote {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: 48px; font-weight: 900;
   color: var(--pink);
   line-height: 1;
@@ -983,25 +1019,39 @@ body {
   top: 36px; left: 10%; right: 10%;
   height: 1px;
   background: rgba(255,255,255,0.15);
+  z-index: 0;
 }
-.p-flow__step { text-align: center; padding: 0 12px; }
+.p-flow__step {
+  text-align: center; padding: 0 12px;
+  /* 順番アニメーション用: 初期状態は非表示 */
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+              transform 0.55s cubic-bezier(0.22,1,0.36,1);
+}
+.p-flow__step.step-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .p-flow__step-num {
   width: 72px; height: 72px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 1.5px solid rgba(255,255,255,0.20);
+  /* 線が透けないようにsolid背景 */
+  background: var(--navy);
+  border: 1.5px solid rgba(255,255,255,0.22);
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 20px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: 20px; font-weight: 900;
   color: var(--white);
-  position: relative; z-index: 1;
+  position: relative; z-index: 2;
   transition: background 0.3s, border-color 0.3s;
+  box-shadow: 0 0 0 4px var(--navy); /* ラインを完全にマスク */
 }
 .p-flow__step:first-child .p-flow__step-num {
   background: var(--pink);
   border-color: var(--pink);
-  box-shadow: 0 0 0 6px rgba(255,14,119,0.20);
+  box-shadow: 0 0 0 4px var(--navy), 0 0 0 8px rgba(255,14,119,0.20);
 }
 .p-flow__step-title {
   font-size: 13px; font-weight: 700;
@@ -1047,7 +1097,7 @@ body {
 }
 .p-faq__q:hover { background: rgba(27,58,75,0.03); }
 .p-faq__q-mark {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: 18px; font-weight: 900;
   color: var(--pink);
   flex-shrink: 0; width: 28px;
@@ -1117,19 +1167,61 @@ body {
 }
 .p-access__row-value { color: var(--text-body); }
 .p-access__phone {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', 'Noto Sans JP', sans-serif;
   font-size: 32px; font-weight: 900;
   color: var(--navy); letter-spacing: 0.02em;
 }
-.p-access__photo {
+/* Access Slider */
+.p-access__slider {
+  position: relative;
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   margin-bottom: 20px;
   aspect-ratio: 16/10;
+  cursor: grab;
+  user-select: none;
 }
-.p-access__photo img {
-  width: 100%; height: 100%; object-fit: cover;
+.p-access__slider:active { cursor: grabbing; }
+.p-access__slider-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform;
+}
+.p-access__slide {
+  flex: 0 0 100%;
+  height: 100%;
+}
+.p-access__slide img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  pointer-events: none;
+}
+.p-access__slider-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(6px);
+  border: none; cursor: pointer;
+  width: 40px; height: 40px; border-radius: 50%;
+  font-size: 22px; color: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  transition: all 0.2s; z-index: 10;
+  line-height: 1;
+}
+.p-access__slider-btn:hover { background: var(--white); transform: translateY(-50%) scale(1.08); }
+.p-access__slider-btn--prev { left: 12px; }
+.p-access__slider-btn--next { right: 12px; }
+.p-access__slider-dots {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 10;
+}
+.p-access__slider-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,0.5); border: none; cursor: pointer;
+  transition: all 0.2s; padding: 0;
+}
+.p-access__slider-dot.active {
+  background: var(--white); width: 20px; border-radius: 4px;
 }
 .p-access__map {
   border-radius: var(--radius-card);
@@ -1279,7 +1371,8 @@ body {
   .p-asset__compare-row { flex-direction: column; gap: 12px; }
   .p-asset__arrow { align-self: center; transform: rotate(90deg); font-size: 22px; }
   .p-asset__card { padding: 20px 16px; }
-  .p-asset__card-amount { font-size: clamp(28px, 8vw, 40px); }
+  .p-asset__card-figure { font-size: clamp(36px, 9vw, 52px); }
+  .p-asset__card-affix  { font-size: clamp(14px, 4vw, 20px); }
 
   /* 全CTAボタン SP: 全幅・折り返し */
   .c-btn--lg {
@@ -1331,7 +1424,8 @@ body {
   .p-stats__note { font-size: 9px; }
   /* Asset 375px */
   .p-asset__compare { padding: 20px 14px; }
-  .p-asset__card-amount { font-size: 26px; }
+  .p-asset__card-figure { font-size: 32px; }
+  .p-asset__card-affix  { font-size: 13px; }
   /* CTA button 375px */
   .c-btn--lg { font-size: 14px; padding: 14px 16px; }
   /* l-container 375px */
@@ -1521,7 +1615,9 @@ body {
         <div class="p-asset__compare-row">
           <div class="p-asset__card">
             <div class="p-asset__card-label">BEFORE — 見直し前</div>
-            <div class="p-asset__card-amount num">約160万円</div>
+            <div class="p-asset__card-amount num">
+              <span class="p-asset__card-affix">約</span><span class="p-asset__card-figure">160</span><span class="p-asset__card-affix">万円</span>
+            </div>
             <div class="p-asset__card-sub">
               <div class="p-asset__card-sub-price">毎月22,876円</div>
               <div class="p-asset__card-sub-note">65歳時に受け取れる金額</div>
@@ -1530,7 +1626,9 @@ body {
           <div class="p-asset__arrow">→</div>
           <div class="p-asset__card p-asset__card--after">
             <div class="p-asset__card-label">AFTER — 見直し後</div>
-            <div class="p-asset__card-amount num">約2,200万円</div>
+            <div class="p-asset__card-amount num">
+              <span class="p-asset__card-affix">約</span><span class="p-asset__card-figure">2,200</span><span class="p-asset__card-affix">万円</span>
+            </div>
             <div class="p-asset__card-sub">
               <div class="p-asset__card-sub-price">毎月22,876円</div>
               <div class="p-asset__card-sub-note">65歳時に受け取れる金額</div>
@@ -1559,8 +1657,7 @@ body {
         <div class="fade-up">
           <div class="section__kicker">茂原で創業75年</div>
           <h2 class="section__title">
-            生命保険の無駄をなくして<br>
-            お客様の資産を増やす！<br>
+            生命保険の無駄をなくして、お客様の資産を増やす！<br>
             <span style="font-size:0.72em;color:var(--text-body);">保険見直しのプロだから。</span>
           </h2>
         </div>
@@ -1621,17 +1718,6 @@ body {
     </div>
 
     <!-- Gallery -->
-    <div class="p-trust__gallery">
-      <div class="p-trust__gallery-item fade-up">
-        <img src="./images/interior-bright.jpg" alt="店内の様子" loading="lazy">
-      </div>
-      <div class="p-trust__gallery-item fade-up d1">
-        <img src="./images/interior-sofa.jpg" alt="ゆったりとした相談スペース" loading="lazy">
-      </div>
-      <div class="p-trust__gallery-item fade-up d2">
-        <img src="./images/kids-corner.jpg" alt="キッズコーナー完備" loading="lazy">
-      </div>
-    </div>
 
     <!-- Awards -->
     <div class="p-trust__awards fade-up" style="margin-top:32px;">
@@ -1668,12 +1754,12 @@ body {
           <div class="p-ba__compare">
             <div class="p-ba__amount-block">
               <div class="p-ba__label p-ba__label--before">BEFORE</div>
-              <div class="p-ba__amount p-ba__amount--before">22,876円</div>
+              <div class="p-ba__amount p-ba__amount--before"><span class="p-ba__figure">22,876</span><span class="p-ba__affix">円</span></div>
             </div>
             <div class="p-ba__arrow-icon">→</div>
             <div class="p-ba__amount-block">
               <div class="p-ba__label p-ba__label--after">AFTER</div>
-              <div class="p-ba__amount p-ba__amount--after">10,394円</div>
+              <div class="p-ba__amount p-ba__amount--after"><span class="p-ba__figure">10,394</span><span class="p-ba__affix">円</span></div>
             </div>
           </div>
           <div style="font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.7">
@@ -1693,12 +1779,12 @@ body {
           <div class="p-ba__compare">
             <div class="p-ba__amount-block">
               <div class="p-ba__label p-ba__label--before">BEFORE</div>
-              <div class="p-ba__amount p-ba__amount--before" style="font-size:clamp(22px,2.5vw,32px);">約160万円</div>
+              <div class="p-ba__amount p-ba__amount--before"><span class="p-ba__affix">約</span><span class="p-ba__figure">160</span><span class="p-ba__affix">万円</span></div>
             </div>
             <div class="p-ba__arrow-icon">→</div>
             <div class="p-ba__amount-block">
               <div class="p-ba__label p-ba__label--after">AFTER</div>
-              <div class="p-ba__amount p-ba__amount--after" style="font-size:clamp(28px,3.2vw,44px);">約2,200万円</div>
+              <div class="p-ba__amount p-ba__amount--after"><span class="p-ba__affix">約</span><span class="p-ba__figure">2,200</span><span class="p-ba__affix">万円</span></div>
             </div>
           </div>
           <div style="font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.7">
@@ -1868,36 +1954,36 @@ body {
       <h2 class="section__title section__title--white">無料で始められます<br>LINEで所要時間は約3分</h2>
     </div>
 
-    <div class="p-flow__steps">
-      <div class="p-flow__step fade-up">
+    <div class="p-flow__steps" id="flow-steps">
+      <div class="p-flow__step">
         <div class="p-flow__step-num">01</div>
         <div>
           <div class="p-flow__step-title">LINEで<br>友だち追加</div>
           <div class="p-flow__step-note">まずはLINEで<br>無料登録</div>
         </div>
       </div>
-      <div class="p-flow__step fade-up d1">
+      <div class="p-flow__step">
         <div class="p-flow__step-num">02</div>
         <div>
           <div class="p-flow__step-title">3分<br>セルフチェック</div>
           <div class="p-flow__step-note">ご自身でできる<br>簡易診断</div>
         </div>
       </div>
-      <div class="p-flow__step fade-up d2">
+      <div class="p-flow__step">
         <div class="p-flow__step-num">03</div>
         <div>
           <div class="p-flow__step-title">結果確認後<br>電話予約（任意）</div>
           <div class="p-flow__step-note">より詳しく<br>知りたい方のみ</div>
         </div>
       </div>
-      <div class="p-flow__step fade-up d3">
+      <div class="p-flow__step">
         <div class="p-flow__step-num">04</div>
         <div>
           <div class="p-flow__step-title">保険証券を持って<br>来店</div>
           <div class="p-flow__step-note">診断に約1週間<br>お時間をいただきます</div>
         </div>
       </div>
-      <div class="p-flow__step fade-up d4">
+      <div class="p-flow__step">
         <div class="p-flow__step-num">05</div>
         <div>
           <div class="p-flow__step-title">診断結果を<br>お聞きする</div>
@@ -2040,13 +2126,27 @@ body {
       </div>
 
       <div class="fade-up d1">
-        <div class="p-access__photo">
-          <img src="./images/exterior-1.jpg" alt="ほけん家族 店舗外観" loading="lazy">
+        <!-- Photo Slider -->
+        <div class="p-access__slider" id="access-slider">
+          <div class="p-access__slider-track" id="slider-track">
+            <div class="p-access__slide"><img src="./images/exterior-1.jpg" alt="ほけん家族 店舗外観" loading="lazy"></div>
+            <div class="p-access__slide"><img src="./images/interior-bright.jpg" alt="店内の様子" loading="lazy"></div>
+            <div class="p-access__slide"><img src="./images/interior-sofa.jpg" alt="ゆったりとした相談スペース" loading="lazy"></div>
+            <div class="p-access__slide"><img src="./images/kids-corner.jpg" alt="キッズコーナー完備" loading="lazy"></div>
+          </div>
+          <button class="p-access__slider-btn p-access__slider-btn--prev" id="slider-prev" aria-label="前の画像">&#8249;</button>
+          <button class="p-access__slider-btn p-access__slider-btn--next" id="slider-next" aria-label="次の画像">&#8250;</button>
+          <div class="p-access__slider-dots" id="slider-dots">
+            <button class="p-access__slider-dot active" data-index="0"></button>
+            <button class="p-access__slider-dot" data-index="1"></button>
+            <button class="p-access__slider-dot" data-index="2"></button>
+            <button class="p-access__slider-dot" data-index="3"></button>
+          </div>
         </div>
         <div class="p-access__map">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3249.1529877482655!2d140.28577387648836!3d35.42167337263185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60228f3b7e3c5a4d%3A0x4f00f0a0d0f0e0b0!2z44G5466f5aCA5peP77yI5qCq5byP5Lya56S277yJ!5e0!3m2!1sja!2sjp!4v1714000000000!5m2!1sja!2sjp&q=千葉県茂原市北塚947-1"
-            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3249.65085180825!2d140.2981066771266!3d35.46343734190517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6022b9042bd3df03%3A0x9860a8892f74e5e7!2z44G744GR44KT5a625peP!5e0!3m2!1sja!2sjp!4v1777433446226!5m2!1sja!2sjp"
+            style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
             title="ほけん家族 地図">
           </iframe>
         </div>
@@ -2081,12 +2181,15 @@ body {
           LINEで無料3分チェックをする →
         </a>
         <a href="tel:0120037042" class="c-btn c-btn--outline c-btn--lg">
-          📞 0120-037-042
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.95-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          0120-037-042
         </a>
       </div>
 
       <div class="p-footer-cta__disclaimer">
-        ※「必ず下がります」「絶対お得」などの表現は使用していません。保険料・資産額の変化は、お客様個人の保険内容・年齢・健康状態・目的等によって異なります。<br>
+        ※保険料・資産額の変化は、お客様個人の保険内容・年齢・健康状態・目的等によって異なります。<br>
         ※「No.1」「販売件数」などの実績は、特定の保険会社・対象期間・対象部門における結果です。詳細はスタッフへお問い合わせください。
       </div>
 
@@ -2107,6 +2210,72 @@ body {
      JS
      ============================================================ -->
 <script>
+/* ── Flow Steps sequential animation ── */
+(function() {
+  const stepsWrap = document.getElementById('flow-steps');
+  if (!stepsWrap) return;
+  const steps = Array.from(stepsWrap.querySelectorAll('.p-flow__step'));
+  let triggered = false;
+
+  const obs = new IntersectionObserver((entries) => {
+    if (triggered || !entries[0].isIntersecting) return;
+    triggered = true;
+    obs.disconnect();
+    steps.forEach((step, i) => {
+      setTimeout(() => step.classList.add('step-visible'), i * 280);
+    });
+  }, { threshold: 0.2 });
+
+  obs.observe(stepsWrap);
+})();
+
+/* ── Access Photo Slider ── */
+(function() {
+  const track   = document.getElementById('slider-track');
+  const dots    = document.querySelectorAll('.p-access__slider-dot');
+  const btnPrev = document.getElementById('slider-prev');
+  const btnNext = document.getElementById('slider-next');
+  if (!track) return;
+
+  const total = track.children.length;
+  let current = 0;
+  let autoTimer;
+  let dragStartX = 0;
+  let isDragging = false;
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  btnPrev.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+  btnNext.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+  dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.index); startAuto(); }));
+
+  /* Touch / Mouse drag */
+  const slider = document.getElementById('access-slider');
+  function onDragStart(x) { dragStartX = x; isDragging = true; }
+  function onDragEnd(x) {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = dragStartX - x;
+    if (Math.abs(diff) > 40) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
+  }
+  slider.addEventListener('mousedown',  e => onDragStart(e.clientX));
+  slider.addEventListener('mouseup',    e => onDragEnd(e.clientX));
+  slider.addEventListener('mouseleave', e => { if (isDragging) onDragEnd(e.clientX); });
+  slider.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
+  slider.addEventListener('touchend',   e => onDragEnd(e.changedTouches[0].clientX), { passive: true });
+
+  startAuto();
+})();
+
 /* ── Header scroll shadow ── */
 const hdr = document.getElementById('site-header');
 window.addEventListener('scroll', () => {
