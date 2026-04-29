@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <style>
 /* ============================================================
    DESIGN TOKENS
@@ -168,11 +169,10 @@ body {
 .c-btn--sm { font-size: 13px; padding: 10px 20px; border-radius: 10px; }
 
 .line-icon {
-  width: 30px; height: 30px;
-  background: rgba(255,255,255,0.18);
-  border-radius: 8px;
+  width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
+  color: white;
 }
 
 .nav-cta {
@@ -241,18 +241,32 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: 0 40px;
-  display: flex;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 1fr 52%;
+  grid-template-rows: auto 1fr;
   position: relative; z-index: 2;
 }
 
-.p-hero__left {
-  flex: 1;
+/* タイトルブロック：グリッド左上 */
+.p-hero__left-top {
+  grid-column: 1;
+  grid-row: 1;
   min-width: 0;
-  padding: 64px 28px 56px 0;
+  padding: 64px 28px 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+}
+
+/* ボディブロック：グリッド左下 */
+.p-hero__left-bottom {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+  padding: 0 28px 56px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .p-hero__eyebrow {
@@ -302,13 +316,9 @@ body {
   animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.42s forwards;
 }
 .p-hero__cta-note {
-  font-size: 11.5px; color: var(--text-muted);
-  display: flex; align-items: center; gap: 6px;
-}
-.p-hero__cta-note::before {
-  content: '';
-  display: block; width: 3px; height: 3px;
-  border-radius: 50%; background: var(--text-muted);
+  font-size: 13px; color: #6b7280;
+  text-align: center;
+  letter-spacing: 0.04em;
 }
 /* ビフォー・アフターボタン：ホバー時にネイビー塗りつぶし */
 .p-hero__cta-wrap .c-btn--outline {
@@ -363,7 +373,8 @@ body {
 
 /* Hero Right - Video */
 .p-hero__right {
-  flex: 0 0 52%;
+  grid-column: 2;
+  grid-row: 1 / 3;
   align-self: stretch;
   padding: 24px 0 24px 16px;
   position: relative; z-index: 2;
@@ -997,6 +1008,12 @@ body {
   font-size: 14px; line-height: 1.7;
   color: var(--text-dark); font-weight: 500;
 }
+.p-target__em {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
 
 /* ============================================================
    FLOW (08)
@@ -1278,8 +1295,8 @@ body {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  .p-hero__inner { padding: 0 32px; }
-  .p-hero__right { flex: 0 0 50%; padding: 20px 0 20px 16px; }
+  .p-hero__inner { padding: 0 32px; grid-template-columns: 1fr 50%; }
+  .p-hero__right { padding: 20px 0 20px 16px; }
   .p-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .p-stats__item::after { display: none; }
   .p-asset__inner { grid-template-columns: 1fr; gap: 48px; }
@@ -1306,23 +1323,33 @@ body {
     min-height: auto;
   }
   .p-hero__inner {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     padding: 0 20px;
   }
-  /* テキスト（left）を上に、動画（right）を下に */
-  .p-hero__left {
+  /* SP順番：タイトル→動画→サブ+CTA */
+  .p-hero__left-top {
+    grid-column: 1;
+    grid-row: auto;
     order: 1;
-    padding: 32px 0 28px;
+    padding: 32px 0 16px;
   }
   .p-hero__right {
+    grid-column: 1;
+    grid-row: auto;
     order: 2;
-    flex: none;
     width: 100%;
-    padding: 0 0 28px;
+    padding: 0 0 16px;
     align-self: auto;
     height: 58vw;
     min-height: 240px;
     max-height: 400px;
+  }
+  .p-hero__left-bottom {
+    grid-column: 1;
+    grid-row: auto;
+    order: 3;
+    padding: 16px 0 28px;
   }
   .p-hero__video-wrap {
     height: 100%;
@@ -1477,7 +1504,8 @@ body {
 <section class="p-hero" id="hero">
 <div class="p-hero__inner">
 
-  <div class="p-hero__left">
+  <!-- タイトルブロック（PC:左上 / SP:1番目） -->
+  <div class="p-hero__left-top">
     <div class="p-hero__eyebrow">
       <div class="p-hero__eyebrow-bar"></div>
       <span class="p-hero__eyebrow-text">保険と家計の相談窓口</span>
@@ -1488,7 +1516,10 @@ body {
       プロが本気で<br>
       安くします。
     </h1>
+  </div>
 
+  <!-- ボディブロック（PC:左下 / SP:3番目） -->
+  <div class="p-hero__left-bottom">
     <p class="p-hero__sub">
       <strong>同じ保障額で、ここまで下がる。</strong><br>
       32歳男性・死亡＋医療＋がん＋三大疾病の保障<br>
@@ -1496,12 +1527,10 @@ body {
     </p>
 
     <div class="p-hero__cta-wrap">
-      <div class="p-hero__cta-note">たった3つの質問。約3分で完了。完全無料。</div>
+      <div class="p-hero__cta-note">＼ 約3分で完了！完全無料 ／</div>
       <a href="#line-cta" class="c-btn c-btn--pink c-btn--lg" id="hero-cta">
         <div class="line-icon">
-          <svg width="18" height="18" viewBox="0 0 36 36" fill="white">
-            <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12C33 8.94 26.28 3 18 3zm-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6zm2.6 0h-1.6v-7.6h1.6v7.6zm7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6zm4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
-          </svg>
+          <i class="fa-brands fa-line" style="font-size:18px;line-height:1;"></i>
         </div>
         無料で自分のほけんを3分でチェックする &thinsp;→
       </a>
@@ -1509,7 +1538,6 @@ body {
         ビフォー・アフターの例を見る
       </a>
     </div>
-
   </div>
 
   <div class="p-hero__right">
@@ -1767,7 +1795,7 @@ body {
           </div>
           <div class="p-ba__point">
             <div class="p-ba__point-title">安くなる！見直しのポイント</div>
-            <div class="p-ba__point-body">①保険会社を見直す<br>②保障の期間や払込方法を、家族構成や状況に合わせて最適化する</div>
+            <div class="p-ba__point-body">①<strong>保険会社</strong>を見直す<br>②<strong>保障の期間や払込方法</strong>を、家族構成や状況に合わせて<strong>最適化</strong>する</div>
           </div>
         </div>
       </div>
@@ -1793,7 +1821,7 @@ body {
           </div>
           <div class="p-ba__point">
             <div class="p-ba__point-title">資産を増やす！見直しのポイント</div>
-            <div class="p-ba__point-body">①無駄な掛け捨てを減らし、必要最低限の保障を持つ<br>②固定利率／変動利率などリスク許容度に合わせてお金の増やし方を選ぶ</div>
+            <div class="p-ba__point-body">①<strong>無駄な掛け捨て</strong>を減らし、必要最低限の保障を持つ<br>②固定利率／変動利率などリスク許容度に合わせて<strong>お金の増やし方</strong>を選ぶ</div>
           </div>
         </div>
       </div>
@@ -1895,7 +1923,7 @@ body {
                 <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="p-target__item-text">漢字の名前の保険会社に加入している</div>
+            <div class="p-target__item-text"><strong class="p-target__em">漢字の名前</strong>の保険会社に加入している</div>
           </div>
           <div class="p-target__item fade-up d2">
             <div class="p-target__item-check">
@@ -1903,7 +1931,7 @@ body {
                 <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="p-target__item-text">更新型の保険に加入している</div>
+            <div class="p-target__item-text"><strong class="p-target__em">更新型</strong>の保険に加入している</div>
           </div>
           <div class="p-target__item fade-up d3">
             <div class="p-target__item-check">
@@ -1911,7 +1939,7 @@ body {
                 <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="p-target__item-text">友人・知人や職場に勧誘に来る保険屋さんで加入している</div>
+            <div class="p-target__item-text"><strong class="p-target__em">友人・知人や職場に勧誘に来る保険屋さん</strong>で加入している</div>
           </div>
           <div class="p-target__item fade-up d4">
             <div class="p-target__item-check">
@@ -1927,7 +1955,7 @@ body {
                 <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="p-target__item-text">無駄な掛け捨てを減らして、なるべく貯蓄したい</div>
+            <div class="p-target__item-text"><strong class="p-target__em">無駄な掛け捨てを減らして、なるべく貯蓄したい</strong></div>
           </div>
           <div class="p-target__item fade-up" style="transition-delay:0.48s">
             <div class="p-target__item-check">
@@ -1935,7 +1963,7 @@ body {
                 <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="p-target__item-text">保険はよくわからないから、信頼できる担当者に任せたい</div>
+            <div class="p-target__item-text">保険はよくわからないから、<strong class="p-target__em">信頼できる担当者</strong>に任せたい</div>
           </div>
         </div>
       </div>
@@ -1995,9 +2023,7 @@ body {
     <div class="p-flow__cta fade-up">
       <a href="#line-cta" class="c-btn c-btn--pink c-btn--lg">
         <div class="line-icon">
-          <svg width="18" height="18" viewBox="0 0 36 36" fill="white">
-            <path d="M18 3C9.72 3 3 8.94 3 16.22c0 4.6 2.72 8.64 6.84 11.07L8.43 32.6c-.14.5.4.93.85.65l6.47-4.07c.73.1 1.48.16 2.25.16 8.28 0 15-5.94 15-13.12C33 8.94 26.28 3 18 3zm-5.4 16.4H9.8v-7.6h1.6v6h1.2v1.6zm2.6 0h-1.6v-7.6h1.6v7.6zm7.4 0h-1.6l-3.2-5v5h-1.6v-7.6h1.6l3.2 5v-5h1.6v7.6zm4.2-6h-2.4v1.6h2.4v1.6h-2.4v1.6h2.4v1.6h-4v-8h4v1.6z"/>
-          </svg>
+          <i class="fa-brands fa-line" style="font-size:18px;line-height:1;"></i>
         </div>
         無料で自分のほけんを3分でチェックする →
       </a>
