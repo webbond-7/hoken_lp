@@ -220,7 +220,6 @@ body {
    HERO (01 FV)
    ============================================================ */
 .p-hero {
-  min-height: 100vh;
   padding-top: 68px;
   background: var(--warm-bg);
   position: relative;
@@ -241,7 +240,7 @@ body {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 80px;
+  padding: 0 40px;
   display: flex;
   align-items: stretch;
   position: relative; z-index: 2;
@@ -250,7 +249,7 @@ body {
 .p-hero__left {
   flex: 1;
   min-width: 0;
-  padding: 64px 48px 72px 0;
+  padding: 64px 28px 56px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -288,7 +287,11 @@ body {
   animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.32s forwards;
 }
 .p-hero__sub strong {
-  color: var(--navy); font-weight: 700;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: clamp(24px, 3.2vw, 32px);
+  line-height: 1.4;
+  display: inline-block;
 }
 
 .p-hero__cta-wrap {
@@ -306,52 +309,62 @@ body {
   display: block; width: 3px; height: 3px;
   border-radius: 50%; background: var(--text-muted);
 }
+/* ビフォー・アフターボタン：ホバー時にネイビー塗りつぶし */
+.p-hero__cta-wrap .c-btn--outline {
+  transition: all 0.22s cubic-bezier(0.22,1,0.36,1);
+  position: relative; overflow: hidden;
+}
+.p-hero__cta-wrap .c-btn--outline:hover {
+  background: var(--navy) !important;
+  color: var(--white) !important;
+  border-color: var(--navy) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(27,58,75,0.22);
+}
 
-.p-hero__stats {
-  border-top: 1px solid var(--divider);
-  padding-top: 36px;
-  display: flex; gap: 0;
-  opacity: 0;
-  animation: heroFadeUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.54s forwards;
+/* Video overlay stats */
+.p-hero__video-stats {
+  position: absolute;
+  bottom: 14px; left: 12px; right: 12px;
+  z-index: 4;
+  display: flex;
+  gap: 6px;
 }
-.p-hero__stat {
-  padding-right: 28px;
+.p-hero__video-stat {
   flex: 1;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px;
+  padding: 7px 8px;
+  text-align: center;
 }
-.p-hero__stat:not(:last-child) {
-  border-right: 1px solid var(--divider);
-  margin-right: 28px;
-}
-.p-hero__stat-num {
+.p-hero__video-stat-num {
   font-family: 'Manrope', sans-serif;
-  font-size: clamp(36px, 4vw, 54px);
+  font-size: clamp(14px, 1.6vw, 20px);
   font-weight: 900;
-  line-height: 1.0;
-  color: var(--navy);
+  color: var(--white);
+  line-height: 1.1;
   letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  display: flex; align-items: baseline; gap: 3px;
 }
-.p-hero__stat-unit {
+.p-hero__video-stat-unit {
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: clamp(13px, 1.2vw, 16px);
-  font-weight: 700; color: var(--navy);
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.80);
 }
-.p-hero__stat-label {
-  font-size: 12px; font-weight: 700;
-  color: var(--text-dark); margin-bottom: 3px;
-}
-.p-hero__stat-note {
-  font-size: 10.5px; color: var(--text-muted); line-height: 1.5;
+.p-hero__video-stat-label {
+  font-size: 9px; font-weight: 600;
+  color: rgba(255,255,255,0.58);
+  margin-top: 2px;
+  white-space: nowrap;
 }
 
 /* Hero Right - Video */
 .p-hero__right {
-  flex: 0 0 480px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 64px 80px 0;
+  flex: 0 0 52%;
+  align-self: stretch;
+  padding: 24px 0 24px 16px;
   position: relative; z-index: 2;
   opacity: 0;
   animation: heroFadeIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.28s forwards;
@@ -360,32 +373,35 @@ body {
 .p-hero__video-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16/9;
-  border-radius: 24px;
+  height: 100%;
+  min-height: 320px;
+  border-radius: 20px;
   overflow: hidden;
   background: var(--navy-dark);
   box-shadow: var(--shadow-hero);
 }
 
 .p-hero__video-wrap video {
+  position: absolute;
+  inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; display: block;
 }
 
 .p-hero__video-badge {
   position: absolute;
-  bottom: 20px; left: 20px; right: 20px;
-  display: flex; gap: 8px; flex-wrap: wrap;
+  top: 14px; left: 14px; right: 14px;
+  display: flex; gap: 6px; flex-wrap: wrap;
   z-index: 3;
 }
 .v-badge {
-  background: rgba(255,255,255,0.14);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.22);
-  color: rgba(255,255,255,0.90);
-  font-size: 11px; font-weight: 600;
-  padding: 5px 12px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.80);
+  font-size: 10px; font-weight: 600;
+  padding: 4px 10px;
   border-radius: 100px;
   letter-spacing: 0.04em;
 }
@@ -438,12 +454,17 @@ body {
   line-height: 1.0;
   letter-spacing: -0.03em;
   margin-bottom: 12px;
+  white-space: nowrap;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
 }
 .p-stats__num span.unit {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: clamp(16px, 1.6vw, 22px);
   font-weight: 700;
-  vertical-align: baseline;
+  flex-shrink: 0;
 }
 .p-stats__num .pink { color: var(--pink); }
 .p-stats__label {
@@ -459,61 +480,123 @@ body {
    ASSET COMPARISON (02)
    ============================================================ */
 .p-asset {
-  background: var(--navy);
+  background: linear-gradient(135deg, #72bfe7 0%, #315268 50%, #244a60 100%);
   padding: 112px 0;
+  position: relative;
+  overflow: hidden;
+}
+/* 背景装飾 */
+.p-asset::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,14,119,0.10) 0%, transparent 65%);
+  pointer-events: none;
+}
+.p-asset::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 65%);
+  pointer-events: none;
 }
 .p-asset__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: center;
+  position: relative; z-index: 1;
 }
 .p-asset__text {}
 .p-asset__compare {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
   border-radius: var(--radius-card);
   padding: 48px;
+  backdrop-filter: blur(4px);
 }
 .p-asset__compare-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 24px;
 }
 .p-asset__card {
   flex: 1;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 16px;
-  padding: 28px 24px;
+  padding: 28px 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .p-asset__card--after {
-  background: rgba(255,14,119,0.12);
-  border: 1.5px solid rgba(255,14,119,0.30);
+  background: rgba(255,14,119,0.15);
+  border: 1.5px solid rgba(255,14,119,0.40);
+  box-shadow: 0 0 40px rgba(255,14,119,0.12);
 }
 .p-asset__card-label {
   font-size: 11px; font-weight: 700;
   letter-spacing: 0.10em; text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 10px;
+  color: rgba(255,255,255,0.60);
+  margin-bottom: 12px;
 }
-.p-asset__card--after .p-asset__card-label { color: rgba(255,14,119,0.80); }
+.p-asset__card--after .p-asset__card-label { color: rgba(255,14,119,0.90); }
 .p-asset__card-amount {
   font-family: 'Manrope', sans-serif;
   font-size: clamp(32px, 3.5vw, 44px);
   font-weight: 900;
-  color: rgba(255,255,255,0.60);
+  color: rgba(255,255,255,0.70);
   line-height: 1.1;
 }
 .p-asset__card--after .p-asset__card-amount { color: var(--pink); }
 .p-asset__arrow {
-  font-size: 28px; color: rgba(255,255,255,0.30);
+  font-size: 28px; color: rgba(255,255,255,0.40);
   flex-shrink: 0;
+  align-self: center;
 }
 .p-asset__note {
-  font-size: 11.5px; color: rgba(255,255,255,0.40);
+  font-size: 11.5px; color: rgba(255,255,255,0.45);
   margin-top: 20px; line-height: 1.6;
 }
+/* カード内補足テキスト */
+.p-asset__card-sub {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.p-asset__card-sub-price {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.60);
+  margin-bottom: 3px;
+}
+.p-asset__card--after .p-asset__card-sub-price {
+  color: rgba(255,14,119,0.75);
+}
+.p-asset__card-sub-note {
+  font-size: 10px; color: rgba(255,255,255,0.45);
+  line-height: 1.4;
+}
+/* lead下の補足・リンク */
+.p-asset__lead-note {
+  font-size: 12px; color: rgba(255,255,255,0.50);
+  line-height: 1.8;
+  margin-top: -32px; /* section__lead の margin-bottom: 56px を詰める */
+}
+.p-asset__lead-link {
+  color: rgba(255,255,255,0.75);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.p-asset__lead-link:hover { color: var(--pink); }
 
 /* ============================================================
    TRUST / STORY (03)
@@ -1103,8 +1186,8 @@ body {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  .p-hero__inner { padding: 0 48px; }
-  .p-hero__right { flex: 0 0 380px; padding: 64px 0 64px 0; }
+  .p-hero__inner { padding: 0 32px; }
+  .p-hero__right { flex: 0 0 50%; padding: 20px 0 20px 16px; }
   .p-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .p-stats__item::after { display: none; }
   .p-asset__inner { grid-template-columns: 1fr; gap: 48px; }
@@ -1132,28 +1215,82 @@ body {
   }
   .p-hero__inner {
     flex-direction: column;
-    padding: 0 24px;
+    padding: 0 20px;
   }
+  /* テキスト（left）を上に、動画（right）を下に */
   .p-hero__left {
-    order: 2;
-    padding: 36px 0 48px;
+    order: 1;
+    padding: 32px 0 28px;
   }
   .p-hero__right {
-    order: 1;
+    order: 2;
     flex: none;
     width: 100%;
-    padding: 24px 0 0;
+    padding: 0 0 28px;
+    align-self: auto;
+    height: 58vw;
+    min-height: 240px;
+    max-height: 400px;
   }
   .p-hero__video-wrap {
-    aspect-ratio: 16/9;
-    max-height: none;
-    border-radius: 16px;
+    height: 100%;
+    min-height: unset;
+    border-radius: 14px;
   }
+  /* h1 SP最小フォントサイズ調整 */
+  .p-hero__h1 {
+    font-size: clamp(38px, 10vw, 56px);
+    margin-bottom: 20px;
+  }
+  /* subテキスト strong は SP でも大きめに */
+  .p-hero__sub strong {
+    font-size: clamp(20px, 5.5vw, 28px);
+  }
+  /* ヒーローCTAボタン SP対応 */
+  .p-hero__cta-wrap .c-btn {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+  .p-hero__cta-wrap .c-btn--md {
+    font-size: 13px;
+    padding: 12px 18px;
+  }
+  /* 動画内statsラベルのwrap許可 */
+  .p-hero__video-stat-label { white-space: normal; }
   .p-hero__stats { flex-wrap: wrap; gap: 16px; }
   .p-hero__stat { border-right: none !important; margin-right: 0 !important; padding-right: 0 !important; width: 50%; }
 
-  .p-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .p-stats__item { padding: 0 20px; }
+  .p-stats {  padding: 52px 0; }
+  .p-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 16px 8px; }
+  .p-stats__item { padding: 0 12px; }
+  .p-stats__num { font-size: clamp(36px, 9.5vw, 56px); margin-bottom: 8px; }
+  .p-stats__num span.unit { font-size: clamp(13px, 3.5vw, 18px); }
+  .p-stats__label { font-size: 11px; }
+  .p-stats__note { font-size: 10px; }
+
+  /* Asset compare SP: 縦積みに */
+  .p-asset { padding: 72px 0; }
+  .p-asset__inner { grid-template-columns: 1fr; gap: 40px; }
+  .p-asset__compare { padding: 28px 20px; }
+  .p-asset__compare-row { flex-direction: column; gap: 12px; }
+  .p-asset__arrow { align-self: center; transform: rotate(90deg); font-size: 22px; }
+  .p-asset__card { padding: 20px 16px; }
+  .p-asset__card-amount { font-size: clamp(28px, 8vw, 40px); }
+
+  /* 全CTAボタン SP: 全幅・折り返し */
+  .c-btn--lg {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+    font-size: 15px;
+    padding: 16px 20px;
+    box-sizing: border-box;
+  }
 
   .p-voice__grid { grid-template-columns: 1fr; }
 
@@ -1166,8 +1303,39 @@ body {
 
   .p-footer-cta__foot { flex-direction: column; gap: 12px; text-align: center; }
 
-  .l-container { padding: 0 24px; }
+  .l-container { padding: 0 20px; }
   .p-hero { padding-top: 60px; }
+}
+
+/* ============================================================
+   375px 以下の最小幅保証
+   ============================================================ */
+@media (max-width: 390px) {
+  .p-hero__inner { padding: 0 16px; }
+  .p-hero__h1 { font-size: clamp(34px, 9.5vw, 42px); }
+  .p-hero__sub strong { font-size: 20px; }
+  .p-hero__right { height: 62vw; min-height: 220px; }
+  .p-hero__cta-wrap .c-btn { font-size: 13px; padding: 14px 16px; }
+  .p-hero__eyebrow-text { font-size: 11px; }
+  /* 動画overlayのstatsを375で詰める */
+  .p-hero__video-stats { left: 8px; right: 8px; bottom: 10px; gap: 4px; }
+  .p-hero__video-stat { padding: 5px 6px; }
+  .p-hero__video-stat-num { font-size: 13px; }
+  .p-hero__video-stat-label { font-size: 8px; }
+  /* Stats bar 375px */
+  .p-stats__inner { gap: 12px 4px; }
+  .p-stats__item { padding: 0 8px; }
+  .p-stats__num { font-size: 32px; }
+  .p-stats__num span.unit { font-size: 12px; }
+  .p-stats__label { font-size: 10px; }
+  .p-stats__note { font-size: 9px; }
+  /* Asset 375px */
+  .p-asset__compare { padding: 20px 14px; }
+  .p-asset__card-amount { font-size: 26px; }
+  /* CTA button 375px */
+  .c-btn--lg { font-size: 14px; padding: 14px 16px; }
+  /* l-container 375px */
+  .l-container { padding: 0 16px; }
 }
 
 /* Animate counter */
@@ -1230,7 +1398,7 @@ body {
     <p class="p-hero__sub">
       <strong>同じ保障額で、ここまで下がる。</strong><br>
       32歳男性・死亡＋医療＋がん＋三大疾病の保障<br>
-      月22,876円 → <strong style="color:var(--pink)">月10,394円</strong> に。
+      <strong style="color:var(--text-dark);font-size:clamp(17px,1.8vw,20px);font-weight:700;">月22,876円</strong> → <strong style="color:var(--pink);font-size:clamp(22px,2.8vw,30px);font-weight:900;letter-spacing:-0.02em;">月10,394円</strong> に。
     </p>
 
     <div class="p-hero__cta-wrap">
@@ -1248,31 +1416,6 @@ body {
       </a>
     </div>
 
-    <div class="p-hero__stats" id="hero-stats">
-      <div class="p-hero__stat">
-        <div class="p-hero__stat-num">
-          <span class="count-num" data-target="75">0</span>
-          <span class="p-hero__stat-unit">年</span>
-        </div>
-        <div class="p-hero__stat-label">創業年数</div>
-        <div class="p-hero__stat-note">地域に根ざした実績と信頼</div>
-      </div>
-      <div class="p-hero__stat">
-        <div class="p-hero__stat-num">
-          <span class="count-num" data-target="10000" data-format="comma">0</span>
-          <span class="p-hero__stat-unit">件以上</span>
-        </div>
-        <div class="p-hero__stat-label">累計相談件数</div>
-        <div class="p-hero__stat-note">幅広い年代・状況をサポート</div>
-      </div>
-      <div class="p-hero__stat">
-        <div class="p-hero__stat-num">
-          <span class="count-text" data-text="No.1" style="font-family:'Manrope',sans-serif;font-size:clamp(32px,3.5vw,50px);">—</span>
-        </div>
-        <div class="p-hero__stat-label">千葉県相談実績</div>
-        <div class="p-hero__stat-note">7年連続・地元で最も選ばれる<sup style="font-size:9px">※</sup></div>
-      </div>
-    </div>
   </div>
 
   <div class="p-hero__right">
@@ -1280,9 +1423,31 @@ body {
       <video id="hero-video" autoplay muted playsinline>
         <source src="./hero-video.mp4" type="video/mp4">
       </video>
+      <!-- 上部バッジ -->
       <div class="p-hero__video-badge">
         <span class="v-badge">📍 千葉県茂原市</span>
         <span class="v-badge">対面相談・完全無料</span>
+      </div>
+      <!-- 下部 stats オーバーレイ -->
+      <div class="p-hero__video-stats" id="hero-stats">
+        <div class="p-hero__video-stat">
+          <div class="p-hero__video-stat-num">
+            <span class="count-num" data-target="75">0</span><span class="p-hero__video-stat-unit">年</span>
+          </div>
+          <div class="p-hero__video-stat-label">創業年数</div>
+        </div>
+        <div class="p-hero__video-stat">
+          <div class="p-hero__video-stat-num">
+            <span class="count-num" data-target="10000" data-format="comma">0</span><span class="p-hero__video-stat-unit">件</span>
+          </div>
+          <div class="p-hero__video-stat-label">累計相談件数</div>
+        </div>
+        <div class="p-hero__video-stat">
+          <div class="p-hero__video-stat-num">
+            <span class="count-text" data-text="No.1">—</span>
+          </div>
+          <div class="p-hero__video-stat-label">千葉県 相談実績</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1306,7 +1471,7 @@ body {
       </div>
       <div class="p-stats__item fade-up d1">
         <div class="p-stats__num">
-          <span class="count-num" data-target="10000" data-format="comma">0</span><span class="unit">件+</span>
+          <span class="count-num" data-target="10000" data-format="comma">0</span><span class="unit">件</span>
         </div>
         <div class="p-stats__label">累計相談件数</div>
         <div class="p-stats__note">地域最大規模の相談実績</div>
@@ -1347,17 +1512,29 @@ body {
           月々同じ保険料で、将来受け取れる金額が<br>
           ここまで増える可能性があります。
         </p>
+        <p class="p-asset__lead-note">
+          例）32歳男性、死亡・医療・がん・三大疾病の保証<br>
+          <a href="#ba" class="p-asset__lead-link">詳しくはこちら →</a>
+        </p>
       </div>
       <div class="p-asset__compare fade-up d1">
         <div class="p-asset__compare-row">
           <div class="p-asset__card">
             <div class="p-asset__card-label">BEFORE — 見直し前</div>
             <div class="p-asset__card-amount num">約160万円</div>
+            <div class="p-asset__card-sub">
+              <div class="p-asset__card-sub-price">毎月22,876円</div>
+              <div class="p-asset__card-sub-note">65歳時に受け取れる金額</div>
+            </div>
           </div>
           <div class="p-asset__arrow">→</div>
           <div class="p-asset__card p-asset__card--after">
             <div class="p-asset__card-label">AFTER — 見直し後</div>
             <div class="p-asset__card-amount num">約2,200万円</div>
+            <div class="p-asset__card-sub">
+              <div class="p-asset__card-sub-price">毎月22,876円</div>
+              <div class="p-asset__card-sub-note">65歳時に受け取れる金額</div>
+            </div>
           </div>
         </div>
         <div class="p-asset__note">
@@ -1491,12 +1668,12 @@ body {
           <div class="p-ba__compare">
             <div class="p-ba__amount-block">
               <div class="p-ba__label p-ba__label--before">BEFORE</div>
-              <div class="p-ba__amount p-ba__amount--before">22,876円<span style="font-size:0.5em;font-family:'Noto Sans JP';font-weight:700">/月</span></div>
+              <div class="p-ba__amount p-ba__amount--before">22,876円</div>
             </div>
             <div class="p-ba__arrow-icon">→</div>
             <div class="p-ba__amount-block">
               <div class="p-ba__label p-ba__label--after">AFTER</div>
-              <div class="p-ba__amount p-ba__amount--after">10,394円<span style="font-size:0.44em;font-family:'Noto Sans JP';font-weight:700;color:var(--pink)">/月</span></div>
+              <div class="p-ba__amount p-ba__amount--after">10,394円</div>
             </div>
           </div>
           <div style="font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.7">
@@ -2005,7 +2182,7 @@ const counterObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.25 });
 
-/* Hero stats + Stats bar */
+/* Hero video stats + Stats bar */
 const heroStats = document.getElementById('hero-stats');
 const statsSection = document.getElementById('stats');
 if (heroStats) counterObs.observe(heroStats);
